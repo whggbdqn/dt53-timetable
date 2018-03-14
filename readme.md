@@ -15,3 +15,4 @@
 
 * [dt50-timetable](https://github.com/whggbdqn/dt50-timetable)
 * [dt52-timetable](https://github.com/whggbdqn/dt52-timetable)
+* [dt52-timetable-钉钉版](https://github.com/whggbdqn/dt52-timetable-dd)
