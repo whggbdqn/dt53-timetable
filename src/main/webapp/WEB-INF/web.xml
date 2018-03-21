@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <display-name>dt53-timetable</display-name>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  <display-name></display-name>	
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-</web-app>
+    <!-- 配置核心控制器
+     作用:1.拦截所有控制器请求
+          2.读取springmvc配置文件，根据配置文件进行分发处理
+            默认读取:WEB-INF/核心控制器名-servlet.xml配置文件
+   -->
+ <servlet>
+  <servlet-name>springmvc</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  <!-- 设置springmvc配置文件的位置
+  如果不指定: 核心控制器名称-servlet.xml的配置文件,并放在WEB-INF目录中即可
+   -->
+  <init-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:springmvc-servlet.xml</param-value>
+  </init-param>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>springmvc</servlet-name>
+  <!-- 拦截指定控制器请求 -->
+  <url-pattern>*.s</url-pattern>
+ </servlet-mapping>
+ <!-- 配置过滤器解决乱码 -->
+  <filter>
+  <filter-name>Enconding</filter-name>
+  <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+   <init-param>
+     <param-name>encoding</param-name>
+     <param-value>utf-8</param-value> 
+    </init-param>
+ </filter>
+ <filter-mapping>
+  <filter-name>Enconding</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+ 
+ 
+ <context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>classpath:applicationContext.xml</param-value>
+</context-param>
+   <!--  2.使用 ContextLoaderListener监听器启动spring容器 
+   注意:如果applicationContext.xml在web-inf目录中可不用配置Context-param参数
+    -->
+<listener>
+<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+ </listener>
+ </web-app>

@@ -1,0 +1,33 @@
+.table .center,.table th {
+	text-align: center;
+}
+.table .middle {
+	vertical-align: middle !important;
+}
+.classGrade,.classTeacher,.classCourse {
+	cursor: pointer;
+	text-align: center;
+	vertical-align: middle !important;
+}
+.table>tbody>tr>td[rowspan]{
+	background-color: white;
+}
+.table>tbody>tr>td[class$="classroom"] ~ td {
+	cursor: pointer;
+	padding:0px;
+	vertical-align:middle;
+	text-align: center;
+}
+.table>tbody>tr>td[class$="classroom"] ~ td>select {
+	width:100%;
+	border-width:0px;
+	/*width: auto;
+    zpadding: 0 2%;
+    zmargin: 0;*/
+}
+.table>tbody>tr>td[class$="classroom"] ~ td>select>option{
+	text-align: center;
+}
+.table>tbody>tr>td {
+	padding:4px;
+}
