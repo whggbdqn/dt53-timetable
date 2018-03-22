@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<!-- 给java类型取别名 -->
+<typeAliases>
+  <package name="com.entity"/>
+</typeAliases>
+
+	<!-- 加载sql映射文件 -->
+	<mappers>
+	   <mapper resource="com/mapper/ClassandroomMapper.xml"></mapper>	
+	   <mapper resource="com/mapper/ClassMapper.xml"></mapper>
+	   <mapper resource="com/mapper/ClassroomMapper.xml"></mapper>	
+	   <mapper resource="com/mapper/RoomtimeMapper.xml"></mapper>	
+	   <mapper resource="com/mapper/SubjectMapper.xml"></mapper>	
+	   <mapper resource="com/mapper/TeacherclassMapper.xml"></mapper>	
+	   <mapper resource="com/mapper/TeacherMapper.xml"></mapper>
+	   <mapper resource="com/mapper/TeachertimeMapper.xml"></mapper>	
+	   <mapper resource="com/mapper/TimeMapper.xml"></mapper>			
+	</mappers>
+</configuration>
