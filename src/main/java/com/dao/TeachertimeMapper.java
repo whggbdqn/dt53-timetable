@@ -1,8 +1,13 @@
 package com.dao;
 
+import java.util.List;
+
 import com.entity.Teachertime;
 
 public interface TeachertimeMapper {
+
+	// 查询全部
+	List<Teachertime> getAllTeachertimer();
 
 	int deleteByPrimaryKey(Integer teachertimeid);
 

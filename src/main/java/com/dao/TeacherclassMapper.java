@@ -1,9 +1,15 @@
 package com.dao;
 
+import java.util.List;
+
+
 import com.entity.Teacherclass;
 
 public interface TeacherclassMapper {
 
+	//查询全部
+	List<Teacherclass> getAllTeacherclass();
+		
 	int deleteByPrimaryKey(Integer teacherclassid);
 
 	int insert(Teacherclass record);

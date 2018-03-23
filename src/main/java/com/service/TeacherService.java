@@ -1,11 +1,16 @@
-package com.dao;
-
+package com.service;
 
 import java.util.List;
 
 import com.entity.Teacher;
 
-public interface TeacherMapper {
+
+/**
+ * 关于老师的业务
+ * @author 吴迪
+ *
+ */
+public interface TeacherService {
 	
     //查询全部
 	List<Teacher> getAllTeacher();
@@ -21,4 +26,5 @@ public interface TeacherMapper {
 	
     //通过教员实体更新
 	int updateByPrimaryKey(Teacher record);
+	
 }
