@@ -13,7 +13,7 @@
   
     <!-- 得到所有指定状态的班级 -->
   <select id="getAllClassByState" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-  	select * from class where classState=#{state}
+  	select * from class where classState=#{state} and classNum &lt;=#{availableNum}
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

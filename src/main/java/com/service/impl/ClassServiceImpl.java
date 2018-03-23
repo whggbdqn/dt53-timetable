@@ -17,8 +17,8 @@ public class ClassServiceImpl implements ClassService {
 	private ClassMapper classMapper;
 
 	@Override
-	public List<Class> getAllClassByState(Integer state) {
-		return classMapper.getAllClassByState(state);
+	public List<Class> getAllClassByState(Integer state,Integer availableNum) {
+		return classMapper.getAllClassByState(state,availableNum);
 	}
 
 }

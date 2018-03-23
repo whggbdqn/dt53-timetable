@@ -23,5 +23,5 @@ public interface ClassMapper {
 	 * @param state 班级状态
 	 * @return 指定状态班级
 	 */
-	List<Class> getAllClassByState(Integer state);
+	List<Class> getAllClassByState(Integer state,Integer availableNum);
 }

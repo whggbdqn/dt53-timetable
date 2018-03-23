@@ -23,7 +23,7 @@ public class testDao {
 	public void testClassDao(){
 		ApplicationContext applicationContext= new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 		ClassMapper classMapper = applicationContext.getBean(ClassMapper.class);
-		System.out.println(classMapper.getAllClassByState(0).size()+"班级");
+		//System.out.println(classMapper.getAllClassByState(0).size()+"班级");
 	
 	}
 	
