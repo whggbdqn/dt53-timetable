@@ -4,8 +4,40 @@
 
 $(function() {
 
-		$(document).on('click','.className',function(){
+		//双击【班级名称】表格事件
+		$(document).on('dblclick','.className',function(){
+			//遍历所有节点，取消其他节点的可编辑状态
+			//1.获取所有节点
+			var allNode = $(".className,.teacherName,.classInfo");
+			//2.遍历所有节点，取消所有其他节点的选中状态
+			allNode.each(function(index,element){
+				//console.log(element);
+				if($(this).find("select").length!=0){
+					console.log(element);
+					
+				}
+			});
 			
+			
+			//获取当前一行的教室名
+			var className=$(this).parent().children(".roomName").html();
+			//获取当前编辑的表格
+			var $this=$(this);
+			
+			$.ajax({
+				url:'json/QueryClass.do',
+				type:'post',
+				dataType:'json',
+				data:{'className':className},
+				success:function(data){
+					var classBox="<select style=\"width:170px;\">";
+					for(var i=0 ; i<data.length ; i++){
+						classBox+="<option value =\""+data[i].classId+"\">"+data[i].classname+"</option>";						
+					}	
+					classBox+="</select>";
+					$this.html(classBox);
+				}	
+			});	
 		});
 	
 			
@@ -51,14 +83,14 @@ $(function() {
 						//显示教室
 						if(j==0){
 							//获取json中的key值
-							tbody+="<td align=\"center\">"+Object.keys(rooms)[jf]+"</td>";
+							tbody+="<td class=\"roomName\" align=\"center\">"+Object.keys(rooms)[jf]+"</td>";
 							jf++;
 							jf==9 ? jf=0 : jf;
 							
 						}
 						//设置所有班级名称的class
 						if(j%3==0){
-							tbody+="<td class=\"className\"></td>";
+							tbody+="<td style=\"width:180px;\" class=\"className\"></td>";
 						}
 						//设置所有老师的class
 						if(j%4==0){
