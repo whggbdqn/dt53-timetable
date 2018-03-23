@@ -27,7 +27,7 @@
  <servlet-mapping>
   <servlet-name>springmvc</servlet-name>
   <!-- 拦截指定控制器请求 -->
-  <url-pattern>*.s</url-pattern>
+  <url-pattern>*.do</url-pattern>
  </servlet-mapping>
  <!-- 配置过滤器解决乱码 -->
   <filter>
