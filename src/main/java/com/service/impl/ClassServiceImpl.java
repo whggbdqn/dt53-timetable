@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dao.ClassMapper;
 import com.entity.Class;
+import com.entity.Param;
 import com.service.ClassService;
 
 
@@ -17,8 +18,9 @@ public class ClassServiceImpl implements ClassService {
 	private ClassMapper classMapper;
 
 	@Override
-	public List<Class> getAllClassByState(Integer state) {
-		return classMapper.getAllClassByState(state);
+	public List<Class> getAllClassByState(Integer state,Integer availableNum) {
+		Param p=new Param(state, availableNum);
+		return classMapper.getAllClassByState(p);
 	}
 
 }

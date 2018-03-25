@@ -3,6 +3,7 @@
  */
 
 $(function() {
+
 	//存储每天班级状态信息的数组 , 周一-周天
 	var one=[],two=[],three=[],four=[],five=[],six=[],seven=[];
 	
@@ -68,9 +69,11 @@ $(function() {
 				console.log('333'+className);
 			}
 		}
-	
-	
 
+		//存储每天班级状态信息的数组 , 周一-周天
+		var one,two,three,four,five,six,seven=[];
+		
+	
 		//双击【班级名称】表格事件
 		$(document).on('dblclick','.className',function(){
 			//遍历所有节点，取消其他节点的可编辑状态
@@ -83,7 +86,17 @@ $(function() {
 					//将select的值通过改变html的方式赋给表格，相当于取消上一个表格的编辑状态
 					var val=$(this).find("option:selected").html();
 					$(this).html(val);
+		
+					//获取取消编辑的表格所在的时间范围
+					//1.得到取消编辑标签的父标签tr标签第一个td的值，用于取到当前时星期几
+					//var nowdate= $(this).parent().parent().children(":first").text();
+					var nowdate= $(this).parent().parent().html();
+					console.log(nowdate);
+					//var nowWeek=nowdate.split(/\[|\]/)[1];
+					//console.log(nowWeek);
+					//将已经修改的值，通过改变班级的状态，回传给服务器
 					
+									
 					//将选择的班级名称 存入数组中，确保该班同一天只能选择一次？？？？？
 					//获取上个编辑框所在的星期
 					var beforeEdit = $(this).prev().text();
@@ -161,7 +174,9 @@ $(function() {
 				var weekflag2="";
 				for(var i=0;i<63;i++){
 					tbody+="<tr>";
-					
+
+					tbody+="<td class=\"week\" align=\"center\" style=\"display:none;\">"+dateText+"</td>";
+
 					for(var j=0;j<9;j++){
 		
 						//用于纵向合并星期数
@@ -169,7 +184,11 @@ $(function() {
 						//获取本周时间 调用weekControll.js中的函数
 							var dateText = getTime(day,weekflag);
 							tbody+="<td class=\"week\" align=\"center\" style=\"height：258px;line-height:258px;\" rowspan='9'>"+dateText+"</td>";
+
 							weekflag2=dateText;
+
+
+
 							weekflag++;
 							day--;
 							day==-7 ? day==0 : day;

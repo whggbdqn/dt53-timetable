@@ -9,6 +9,9 @@
     <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
     <result column="teacher_tel" jdbcType="VARCHAR" property="teacherTel" />
   </resultMap>
+  <select id="getAllTeacher" resultMap="BaseResultMap">
+  select * from teacher
+  </select>
   <sql id="Base_Column_List">
     teacherId, subjectId, classId, teacherState, teacher_name, teacher_tel
   </sql>

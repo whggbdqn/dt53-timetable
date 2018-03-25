@@ -7,6 +7,7 @@
     <result column="classNum" jdbcType="INTEGER" property="classnum" />
     <result column="classState" jdbcType="INTEGER" property="classstate" />
   </resultMap>
+ 
   <sql id="Base_Column_List">
     classId, className, classNum, classState
   </sql>
@@ -17,8 +18,8 @@
   </parameterMap>
   
     <!-- 得到所有指定状态的班级 -->
-  <select id="getAllClassByState" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-  	select * from class where classState=#{state}
+  <select id="getAllClassByState" resultMap="BaseResultMap" parameterType="com.entity.Param">
+  	select * from class where classState=#{state} and classNum &lt;=#{availableNum}
   </select>
   
   <!-- 通过班级名字改变班级状态 -->
