@@ -11,10 +11,20 @@
     classId, className, classNum, classState
   </sql>
   
+  <parameterMap type="Param" id="parameterMap_1">
+  		<parameter property="state" javaType="java.lang.Integer"/>
+  		<parameter property="className" javaType="String"/> 
+  </parameterMap>
+  
     <!-- 得到所有指定状态的班级 -->
   <select id="getAllClassByState" resultMap="BaseResultMap" parameterType="java.lang.Integer">
   	select * from class where classState=#{state}
   </select>
+  
+  <!-- 通过班级名字改变班级状态 -->
+  <update id="updateClassStateByName" parameterType="String">
+  		UPDATE class SET classState=#{state} WHERE className=#{className}
+  </update>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

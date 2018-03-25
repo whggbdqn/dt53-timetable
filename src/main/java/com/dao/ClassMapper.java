@@ -24,4 +24,11 @@ public interface ClassMapper {
 	 * @return 指定状态班级
 	 */
 	List<Class> getAllClassByState(Integer state);
+	
+	/**
+	 * 通过班级名字改变班级状态
+	 * @param className
+	 * @return 影响行数
+	 */
+	int updateClassStateByName(String className);
 }
