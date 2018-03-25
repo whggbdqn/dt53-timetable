@@ -35,17 +35,17 @@ public class ClasstableServiceImpl implements ClasstableService {
 
 //		List<Class> classes = classService.getAllClassByState(0);
 //		for (Class c : classes) {
-//
-//		List<Class> classes = classService.getAllClassByState(0, classroom.getAvailablenum());
-//		/*for (Class c : classes) {
-//
-//			//如果班级人数小于教室人数,装入clazz集合
-//			if(c.getClassnum() <= classroom.getAvailablenum()){
-//				clazz.add(c);
-//			}
-//		}*/
-//		
-//		return classes;
+
+		List<Class> classes = classService.getAllClassByState(0, classroom.getAvailablenum());
+		/*for (Class c : classes) {
+
+			//如果班级人数小于教室人数,装入clazz集合
+			if(c.getClassnum() <= classroom.getAvailablenum()){
+				clazz.add(c);
+			}
+		}*/
+		
+		return classes;
 //		
 //	}
 
