@@ -3,6 +3,7 @@ package com.dao;
 import java.util.List;
 
 import com.entity.Class;
+import com.entity.Param;
 
 public interface ClassMapper {
 
@@ -23,5 +24,5 @@ public interface ClassMapper {
 	 * @param state 班级状态
 	 * @return 指定状态班级
 	 */
-	List<Class> getAllClassByState(Integer state,Integer availableNum);
+	List<Class> getAllClassByState(Param p);
 }

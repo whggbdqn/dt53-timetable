@@ -34,6 +34,8 @@ public class ClassJsonController {
 	public List<Class> getAllClassCanSetInRoom(String className){
 		//将查询出来符合教室的班级放在map中，key为教室名，value为该教室下所有班级
 				Map<String, List<Class>> maps=new HashMap<String, List<Class>>();
+				//通过教室名找到该教室可容纳人数
+				System.err.println(className);
 				List<Classroom> roomByState = classroomService.getAllRoomByState(0);
 				for (Classroom classroom : roomByState) {
 					List<Class> enableClass = classtableService.getClassesCanSetInClassRoom(classroom);
@@ -45,7 +47,7 @@ public class ClassJsonController {
 				for (Class class1 : lists) {
 					System.out.println(class1.getClassname());
 				}
-		return lists;
+				return lists;
 	}
 
 }
