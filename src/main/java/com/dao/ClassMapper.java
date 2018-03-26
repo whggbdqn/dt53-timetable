@@ -29,10 +29,10 @@ public interface ClassMapper {
 	
 	/**
 	 * 通过班级名字改变班级状态
-	 * @param className
+	 * @param p 参数实体
 	 * @return 影响行数
 	 */
-	int updateClassStateByName(String className);
+	int updateClassStateByName(Param p);
 
 	List<Class> getAllClassByState(Param p);
 

@@ -23,4 +23,9 @@ public class ClassServiceImpl implements ClassService {
 		return classMapper.getAllClassByState(p);
 	}
 
+	@Override
+	public int updateClassStateByName(Param p) {
+		return classMapper.updateClassStateByName(p);
+	}
+
 }

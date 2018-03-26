@@ -6,6 +6,23 @@ public class Param {
 
 	private Integer availableNum;
 	
+	private String className;
+	
+	
+	
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+	}
+	
+	
+	public Param(Integer state, String className) {
+		super();
+		this.state = state;
+		this.className = className;
+	}
 	public Param(){}
 	public Param(Integer state,Integer availableNum){
 		this.state=state;

@@ -3,6 +3,7 @@ package com.service;
 import java.util.List;
 
 import com.entity.Class;
+import com.entity.Param;
 
 public interface ClassService {
 
@@ -13,4 +14,10 @@ public interface ClassService {
 	 */
 	List<Class> getAllClassByState(Integer state,Integer availableNum);
 	
+	/**
+	 * 通过班级名字改变班级状态
+	 * @param p 参数实体
+	 * @return 影响行数
+	 */
+	int updateClassStateByName(Param p);
 }

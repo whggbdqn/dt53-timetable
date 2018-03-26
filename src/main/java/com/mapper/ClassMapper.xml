@@ -23,7 +23,7 @@
   </select>
   
   <!-- 通过班级名字改变班级状态 -->
-  <update id="updateClassStateByName" parameterType="String">
+  <update id="updateClassStateByName" parameterMap="parameterMap_1">
   		UPDATE class SET classState=#{state} WHERE className=#{className}
   </update>
   

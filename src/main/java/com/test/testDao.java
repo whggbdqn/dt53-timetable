@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.dao.ClassMapper;
 import com.dao.ClassroomMapper;
 import com.dao.TeacherMapper;
+import com.entity.Param;
 
 
 public class testDao {
@@ -35,4 +36,18 @@ public class testDao {
 		System.out.println(teacherMapper.getAllTeacher().size()+"老师");
 	
 	}
+	
+	@Test
+	//测试通过班级名修改班级状态
+	public void testClassNameState(){
+		ApplicationContext applicationContext= new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+		ClassMapper classMapper = applicationContext.getBean(ClassMapper.class);
+		Param param=new Param();
+		param.setState(0);
+		param.setClassName("DT53");
+		System.out.println(classMapper.updateClassStateByName(param));
+	
+	}
+	
+	
 }

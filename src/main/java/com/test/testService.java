@@ -12,7 +12,9 @@ import com.dao.ClassMapper;
 import com.dao.ClassroomMapper;
 import com.entity.Class;
 import com.entity.Classroom;
+import com.entity.Param;
 import com.entity.Teacher;
+import com.service.ClassService;
 import com.service.ClasstableService;
 import com.service.TeacherService;
 
@@ -61,6 +63,17 @@ public class testService {
 		TeacherService teacherService = applicationContext.getBean(TeacherService.class);
 		List<Teacher> teacherServiceimpl = teacherService.getAllTeacher();
 		System.out.println(teacherServiceimpl.size() + "老师");
+
+	}
+	
+	//测试通过班级名修改班级状态
+	@Test
+	public void testChangeClassState() {
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+		ClassService classService = applicationContext.getBean(ClassService.class);
+		Param p=new Param(1,"DT53");
+		int info= classService.updateClassStateByName(p);
+		System.out.println(info);
 
 	}
 }
