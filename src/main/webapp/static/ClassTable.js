@@ -188,11 +188,14 @@ $(function() {
 			 */
 			console.log($(this).text());
 			$(this).change(function(){
-				console.log($(this).find("option:selected").text());
+				console.log($(this).find("select").text());
 				//执行change事件，班级状态变为1
 				changeClassRoomInfoAjax({'className':""+$(this).find("option:selected").text()+"",'state':'1'});
-				//如果点击的值和原有的值相同，状态不改变？？？？？
-				
+				//如果点击的值和原有的值相同，状态改变？？？？？
+				console.log("----------------"+$this.find("option:selected").text());
+				if($(this).find("option:selected").text()==$this.text()){
+					alert('111');
+				}
 				
 				
 				

@@ -17,7 +17,6 @@ public class ClasstableServiceImpl implements ClasstableService {
 	@Autowired
 	private ClassroomMapper classroomMapper;
 	@Autowired
-
 	private ClassMapper classMapper;
 	@Autowired
 	private ClassService classService;
@@ -29,6 +28,7 @@ public class ClasstableServiceImpl implements ClasstableService {
 	 * @return 可容纳班级 
 	 */
 	public List<Class> getClassesCanSetInClassRoom(Classroom classroom) {
+
 
 		List<Class> classes = classService.getAllClassByState(0, classroom.getAvailablenum());
 	
