@@ -4,27 +4,52 @@
 
 $(function() {
 	//双击【班级名称】表格事件
-			$(document).on('dblclick','.className,.teacherName,.classInfo',function(){
-				//console.log($(this));
+			$(document).off('dblclick','.className,.teacherName,.classInfo').on('dblclick','.className,.teacherName,.classInfo',function(){
+				var parentNode=$(this);
+				console.log("11111111111"+$(this).parent().html());
 				//createRowJson($(this));
 				openSelect($(this));
-				changeSelect($(this));
+				changeSelect(parentNode);
 			});
 	
 	/**
 	 * 通过班级名称获取老师和科目
 	 * className 班级名
+	 * td 当前编辑表格
 	 */
-	var getTeacherAndSubjectByClass = function(className){
-		console.log(className);
+	var getTeacherAndSubjectByClass = function(td,className){
+		console.log(">>>>>>>>>>>>>>>>>"+$(td));
+		console.log($(td).parent().children());
+		//console.log(className);
+		//上午下午的老师姓名联动显示
+		$(td).parent().children().eq(2).html(className);
+		$(td).parent().children().eq(5).html(className);
+		var teacherName="";
+		var subjectname="";
+		//表格中老师名的位置
+		var teacherNum=[3,6];
+		//表格中课程的位置
+		var subjectNum=[4,7];
 		if(className!=""){
 			$.ajax({
-			url:'json/QueryClass.do',
+			url:'json/QueryTeacher.do',
 			type:'post',
 			dataType:'json',
 			data:{'className':className},
 			success:function(data){
-				
+				if(data.length>0){
+					console.log(data.length);
+					for (var int = 0; int < data.length; int++) {
+						//根据班级获得上午老师姓名
+						$(td).parent().children().eq(teacherNum[int]).html(data[int].teacherName);
+						//根据班级获得上午课程名
+						$(td).parent().children().eq(subjectNum[int]).html(data[int].subjectname);
+					}
+					//根据班级获得上午老师姓名
+					//$(td).parent().children().eq(3).html(teacherName);
+					//根据班级获得上午课程名
+					//$(td).parent().children().eq(4).html(subjectname);
+				}
 			}	
 		});	
 		}
@@ -103,15 +128,17 @@ $(function() {
 	 * selectBox select多选框的值
 	 */
 	var changeSelect = function(selectBox){
-		/*$(selectBox).text();
-		console.log($(selectBox).text());*/
-		$(document).on('click','.optionClass',function(){
+		
+		/*$(selectBox).text();*/
+		console.log("------------------"+$(selectBox).text());
+		//调用事件之前先解除绑定，避免事件重复调用出现的多值问题
+		$(document).off('click','.optionClass').on('click','.optionClass',function(){
 			var clickVal = $(this).parent().parent().text();
 			//如果点击的值不为请选择年级和空，赋值给td
 			if($(this).text()!="请选择年级" && $(this).text()!=""){
 				$(this).parent().parent().html($(this).text());
 				//获得老师和课程信息
-				getTeacherAndSubjectByClass($(this).text());
+				getTeacherAndSubjectByClass(selectBox,$(this).text());
 			}
 	
 		});

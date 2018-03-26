@@ -30,7 +30,6 @@ public class testService {
 
 	}
 	
-<<<<<<< HEAD
 	//测试通过班级名修改班级状态
 	@Test
 	public void testChangeClassState() {
@@ -41,7 +40,7 @@ public class testService {
 		System.out.println(info);
 
 	}
-=======
+
 	// 测试教员删除
 		@Test
 		public void testteacherServicedel() {
@@ -90,5 +89,5 @@ public class testService {
 			System.out.println(teachername.size() + "个老师");
 
 		}
->>>>>>> branch 'master' of https://github.com/whggbdqn/dt53-timetable.git
+
 }

@@ -18,7 +18,7 @@
   
     <!-- 通过班级名称查询教师姓名和所教科目名称  -->
   <select id="getTname"   resultType="com.entity.Teacher" parameterType="java.lang.String" >
-SELECT teacher.`teacher_name` ,subject.`subjectName`  FROM SUBJECT
+SELECT teacher.`teacher_name` as teacherName ,subject.`subjectName` as subjectname  FROM SUBJECT
  
 INNER JOIN teacher ON teacher.`subjectId`=subject.`subjectId` 
 

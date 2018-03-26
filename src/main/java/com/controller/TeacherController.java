@@ -19,11 +19,22 @@ public class TeacherController {
 
 	@Autowired
 	private TeacherService teacherService;	
-	@RequestMapping("json/QueryClass")
+	
+	
+	@RequestMapping("json/QueryAllTeacher")
 	@ResponseBody
 	public List<Teacher> getAllTeacher(){
 		
 		List<Teacher> tlists=teacherService.getAllTeacher();
+		
+		return tlists;
+	}
+
+	@RequestMapping("json/QueryTeacher")
+	@ResponseBody
+	public List<Teacher> getAllTeacher(String className){
+		
+		List<Teacher> tlists=teacherService.getTname(className);
 		
 		return tlists;
 	}

@@ -55,7 +55,7 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public List getTname(String classname) {
+	public List<Teacher> getTname(String classname) {
 		// TODO Auto-generated method stub
 		return teacherMapper.getTname(classname);
 	}
