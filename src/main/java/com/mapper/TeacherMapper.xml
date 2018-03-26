@@ -8,10 +8,31 @@
     <result column="teacherState" jdbcType="INTEGER" property="teacherstate" />
     <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
     <result column="teacher_tel" jdbcType="VARCHAR" property="teacherTel" />
+     
   </resultMap>
+  
+  <!-- 查询全部  -->
   <select id="getAllTeacher" resultMap="BaseResultMap">
   select * from teacher
   </select>
+  
+    <!-- 通过班级名称查询教师姓名和所教科目名称  -->
+  <select id="getTname"   resultType="com.entity.Teacher" parameterType="java.lang.String" >
+SELECT teacher.`teacher_name` ,subject.`subjectName`  FROM SUBJECT
+ 
+INNER JOIN teacher ON teacher.`subjectId`=subject.`subjectId` 
+
+INNER JOIN class ON teacher.`classId`=class.`classId` 
+
+WHERE class.`className` = #{name}
+  </select>
+  
+  
+    <!-- 模糊查询 -->
+  <select id="getTeacherFuzzyQuery"  resultMap="BaseResultMap">
+  select * from teacher 
+  </select>
+  
   <sql id="Base_Column_List">
     teacherId, subjectId, classId, teacherState, teacher_name, teacher_tel
   </sql>
