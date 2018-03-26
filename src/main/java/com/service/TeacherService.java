@@ -12,6 +12,10 @@ import com.entity.Teacher;
  */
 public interface TeacherService {
 	
+	List getTname(String classname);
+	//以姓名模糊查询
+	List<Teacher> getTeacherFuzzyQuery(String name);
+	
     //查询全部
 	List<Teacher> getAllTeacher();
 	

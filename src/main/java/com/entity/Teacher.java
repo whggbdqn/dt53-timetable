@@ -8,6 +8,15 @@ public class Teacher {
 	private Integer teacherstate;
 	private String teacherName;
 	private String teacherTel;
+	private String subjectname;
+
+	public String getSubjectname() {
+		return subjectname;
+	}
+
+	public void setSubjectname(String subjectname) {
+		this.subjectname = subjectname;
+	}
 
 	public Integer getTeacherid() {
 		return teacherid;

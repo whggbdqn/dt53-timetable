@@ -48,5 +48,17 @@ public class TeacherServiceImpl implements TeacherService {
 		return teacherMapper.updateByPrimaryKey(record);
 	}
 
+	@Override
+	public List<Teacher> getTeacherFuzzyQuery(String name) {
+		// TODO Auto-generated method stub
+		return teacherMapper.getTeacherFuzzyQuery(name);
+	}
+
+	@Override
+	public List getTname(String classname) {
+		// TODO Auto-generated method stub
+		return teacherMapper.getTname(classname);
+	}
+
 	
 }

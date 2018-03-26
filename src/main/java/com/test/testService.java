@@ -19,53 +19,18 @@ import com.service.ClasstableService;
 import com.service.TeacherService;
 
 public class testService {
-
-	@Test
-	// 获取所有符合教室容量的班级
-	public void testClassRoom() {
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-		ClassroomMapper classroomMapper = applicationContext.getBean(ClassroomMapper.class);
-		ClassMapper classMapper = applicationContext.getBean(ClassMapper.class);
-		ClasstableService classtableService = applicationContext.getBean(ClasstableService.class);
-
-		// 将查询出来符合教室的班级放在map中，key为教室名，value为该教室下所有班级
-		Map<String, List<Class>> maps = new HashMap<String, List<Class>>();
-		List<Classroom> roomByState = classroomMapper.getAllRoomByState(0);
-		for (Classroom classroom : roomByState) {
-			List<Class> enableClass = classtableService.getClassesCanSetInClassRoom(classroom);
-			if (null != enableClass)
-				maps.put(classroom.getRoomName(), enableClass);
-			System.out.println(classroom.getRoomName());
-		}
-		List<Class> lists = maps.get("11楼机房");
-		for (Class class1 : lists) {
-			System.out.println(class1.getClassname());
-		}
-
-	}
-
-	@Test
-	public void testServicemethod() {
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-		ClassroomMapper classroomMapper = applicationContext.getBean(ClassroomMapper.class);
-		ClasstableService classtableService = applicationContext.getBean(ClasstableService.class);
-		Classroom classroom = new Classroom();
-		classroom.setAvailablenum(30);
-		List<Class> classesCanSetInClassRoom = classtableService.getClassesCanSetInClassRoom(classroom);
-		System.out.println(classesCanSetInClassRoom.size());
-
-	}
-
+	
 	// 测试教员
 	@Test
 	public void testteacherService() {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
 		TeacherService teacherService = applicationContext.getBean(TeacherService.class);
 		List<Teacher> teacherServiceimpl = teacherService.getAllTeacher();
-		System.out.println(teacherServiceimpl.size() + "老师");
+		System.out.println(teacherServiceimpl.size() + "个老师");
 
 	}
 	
+<<<<<<< HEAD
 	//测试通过班级名修改班级状态
 	@Test
 	public void testChangeClassState() {
@@ -76,4 +41,54 @@ public class testService {
 		System.out.println(info);
 
 	}
+=======
+	// 测试教员删除
+		@Test
+		public void testteacherServicedel() {
+			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+			TeacherService teacherService = applicationContext.getBean(TeacherService.class);
+			int a = teacherService.deleteByPrimaryKey(13);
+			System.out.println("删除影响行数"+a);
+
+		}
+		
+		// 测试教员添加
+		@Test
+		public void testteacherServiceadd() {
+			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+			TeacherService teacherService = applicationContext.getBean(TeacherService.class);
+			
+			Teacher teacher=new Teacher();
+			teacher.setTeacherName("aaa");
+			
+			int a = teacherService.insert(teacher);
+			System.out.println("添加影响行数"+a);
+
+		}
+	
+		// 测试教员更改
+		@Test
+		public void testteacherServiceupdate() {
+			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+			TeacherService teacherService = applicationContext.getBean(TeacherService.class);
+			
+			Teacher teacher=new Teacher();
+			teacher.setTeacherName("aaa");
+			teacher.setTeacherid(14);;
+			
+			int a = teacherService.updateByPrimaryKey(teacher);
+			
+			System.out.println("添加影响行数"+a);
+
+		}
+		
+		@Test
+		public void testteacherTname() {
+			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+			TeacherService teacherService = applicationContext.getBean(TeacherService.class);
+			List teachername = teacherService.getTname("DT53");
+			System.out.println(teachername.size() + "个老师");
+
+		}
+>>>>>>> branch 'master' of https://github.com/whggbdqn/dt53-timetable.git
 }
