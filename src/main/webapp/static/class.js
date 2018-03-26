@@ -16,6 +16,7 @@ $(function() {
 	 * className 班级名
 	 */
 	var getTeacherAndSubjectByClass = function(className){
+		console.log(className);
 		if(className!=""){
 			$.ajax({
 			url:'json/QueryClass.do',
@@ -109,6 +110,8 @@ $(function() {
 			//如果点击的值不为请选择年级和空，赋值给td
 			if($(this).text()!="请选择年级" && $(this).text()!=""){
 				$(this).parent().parent().html($(this).text());
+				//获得老师和课程信息
+				getTeacherAndSubjectByClass($(this).text());
 			}
 	
 		});
