@@ -6,11 +6,43 @@ $(function() {
 	//双击【班级名称】表格事件
 			$(document).off('dblclick','.className,.teacherName,.classInfo').on('dblclick','.className,.teacherName,.classInfo',function(){
 				var parentNode=$(this);
-				console.log("11111111111"+$(this).parent().html());
+				console.log($(this).text());
+				//点击班级框，执行的事件
+				if($(this).hasClass("className")){
+					openSelect($(this));
+					changeSelect(parentNode);
+				}
+				//console.log("11111111111"+$(this).parent().html());
 				//createRowJson($(this));
-				openSelect($(this));
-				changeSelect(parentNode);
 			});
+			
+			
+	/**
+	 * 通过科目和班级确定老师
+	 * subject 科目名
+	 * className 班级名
+	 */		
+	
+	var getTeacherBySubjectAndClass = function(subject,className){
+		
+		if(className!="" && subject!=""){
+			$.ajax({
+			url:'json/QueryTeacherBySubjectAndClass.do',
+			type:'post',
+			dataType:'json',
+			data:{'className':className,'subject':subject},
+			success:function(data){
+				if(data.length>0){
+				
+				}
+			}	
+		});	
+		}
+		
+	}		
+			
+			
+			
 	
 	/**
 	 * 通过班级名称获取老师和科目
@@ -18,8 +50,8 @@ $(function() {
 	 * td 当前编辑表格
 	 */
 	var getTeacherAndSubjectByClass = function(td,className){
-		console.log(">>>>>>>>>>>>>>>>>"+$(td));
-		console.log($(td).parent().children());
+		//console.log(">>>>>>>>>>>>>>>>>"+$(td));
+		//console.log($(td).parent().children());
 		//console.log(className);
 		//上午下午的老师姓名联动显示
 		$(td).parent().children().eq(2).html(className);
@@ -49,9 +81,13 @@ $(function() {
 					//$(td).parent().children().eq(3).html(teacherName);
 					//根据班级获得上午课程名
 					//$(td).parent().children().eq(4).html(subjectname);
+					
+					//在老师名字和相关课程填充完毕后，获取当前行的数据
+					createRowJson($(td));
 				}
 			}	
 		});	
+
 		}
 		
 	}
@@ -102,7 +138,7 @@ $(function() {
 					dataType:'json',
 					data:{'className':className},
 					success:function(data){
-						var classBox="<select style=\"width:170px;\"><option value =\"chooseClass\">请选择班级</option>";
+						var classBox="<select style=\"width:170px;\"><option value =\"chooseClass\">请选择</option>";
 
 						for(var i=0 ; i<data.length ; i++){
 							//判断如果表格框里有值的时候，双击表格框，select中应该选中表格之前的值
@@ -130,18 +166,128 @@ $(function() {
 	var changeSelect = function(selectBox){
 		
 		/*$(selectBox).text();*/
-		console.log("------------------"+$(selectBox).text());
+		//console.log("------------------"+$(selectBox).text());
 		//调用事件之前先解除绑定，避免事件重复调用出现的多值问题
 		$(document).off('click','.optionClass').on('click','.optionClass',function(){
-			var clickVal = $(this).parent().parent().text();
+			var clickVal = $(this).parent().parent().html();
 			//如果点击的值不为请选择年级和空，赋值给td
 			if($(this).text()!="请选择年级" && $(this).text()!=""){
 				$(this).parent().parent().html($(this).text());
 				//获得老师和课程信息
 				getTeacherAndSubjectByClass(selectBox,$(this).text());
+				
 			}
-	
+
 		});
+		
+	}
+	
+	/**
+	 * 分发数组装载每天的数据
+	 * dayJson 每行的json
+	 */
+	//用来装一天范围的所有json格式数据,分7天装载
+	var day1Box=[],day2Box=[],day3Box=[],day4Box=[],day5Box=[],day6Box=[],day7Box=[];
+	
+	var distributeToDayArray = function(dayJson){
+		//由JSON字符串转换为JSON对象
+		var jsonObj = JSON.parse(dayJson); 
+		//获取当前时间
+		var week = jsonObj.weekday;
+		//获取当前教室
+		var classroom = jsonObj.classroom;
+		//不同时间段，分发进不同数组
+		switch(week)
+		{
+		case '星期一':
+			//console.log(day1Box);
+			if(day1Box.length>0){	
+				for (var int = 0; int < day1Box.length; int++) {
+					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+					if(JSON.parse(day1Box[int]).classroom==classroom){
+						day1Box[int]=dayJson;
+						return;
+					}
+				}
+			}
+			day1Box.push(dayJson);
+		  break;
+		case '星期二':
+			console.log(day2Box);
+			if(day2Box.length>0){	
+				for (var int = 0; int < day2Box.length; int++) {
+					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+					if(JSON.parse(day2Box[int]).classroom==classroom){
+						day2Box[int]=dayJson;
+						return;
+					}
+				}
+			}
+			day2Box.push(dayJson);
+		  break;
+		  
+		case '星期三':
+			if(day3Box.length>0){	
+				for (var int = 0; int < day3Box.length; int++) {
+					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+					if(JSON.parse(day3Box[int]).classroom==classroom){
+						day3Box[int]=dayJson;
+						return;
+					}
+				}
+			}
+			day3Box.push(dayJson);
+			  break;
+		case '星期四':
+			if(day4Box.length>0){	
+				for (var int = 0; int < day4Box.length; int++) {
+					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+					if(JSON.parse(day4Box[int]).classroom==classroom){
+						day4Box[int]=dayJson;
+						return;
+					}
+				}
+			}
+			day4Box.push(dayJson);
+			  break;
+		case '星期五':
+			if(day5Box.length>0){	
+				for (var int = 0; int < day5Box.length; int++) {
+					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+					if(JSON.parse(day5Box[int]).classroom==classroom){
+						day5Box[int]=dayJson;
+						return;
+					}
+				}
+			}
+			day5Box.push(dayJson);
+			  break;
+		case '星期六':
+			if(day6Box.length>0){	
+				for (var int = 0; int < day6Box.length; int++) {
+					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+					if(JSON.parse(day6Box[int]).classroom==classroom){
+						day6Box[int]=dayJson;
+						return;
+					}
+				}
+			}
+			day6Box.push(dayJson);
+			  break;
+		case '星期日':
+			if(day7Box.length>0){	
+				for (var int = 0; int < day7Box.length; int++) {
+					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+					if(JSON.parse(day7Box[int]).classroom==classroom){
+						day7Box[int]=dayJson;
+						return;
+					}
+				}
+			}
+			day7Box.push(dayJson);
+			  break;
+
+		}
 		
 	}
 
@@ -151,6 +297,7 @@ $(function() {
 	 * 创建行数据的json格式
 	 * td 当前行的td
 	 */
+	
 	var createRowJson=function(td){
 		if($(td)!=""){
 			//装字段的数组,装当前星期数，教室名，上午，下午，晚上的班级名，老师名，年级信息
@@ -174,8 +321,8 @@ $(function() {
 				var newJson = json.substring(0,json.length-1);
 				newJson+="}";
 				
-				console.log(newJson);
-				
+				//将json数据装入当天的json数组中
+				distributeToDayArray(newJson);
 				return newJson;
 			});
 			
@@ -251,12 +398,12 @@ $(function() {
 				}
 				//设置所有老师的class
 				if(j%4==0){
-					tbody+="<td class=\"teacherName\"></td>";
+					tbody+="<td style=\"width:180px;\" class=\"teacherName\"></td>";
 				}
 				
 				//设置所有课程的class
 				if(j==2 || j==5 || j==8){
-					tbody+="<td class=\"classInfo\"></td>";
+					tbody+="<td style=\"width:180px;\" class=\"classInfo\"></td>";
 				}	
 				
 			}
