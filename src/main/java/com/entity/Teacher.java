@@ -8,7 +8,9 @@ public class Teacher {
 	private Integer teacherstate;
 	private String teacherName;
 	private String teacherTel;
+	// 额外添加
 	private String subjectname;
+	private String classesname;
 
 	public String getSubjectname() {
 		return subjectname;
@@ -34,14 +36,6 @@ public class Teacher {
 		this.subjectid = subjectid;
 	}
 
-	public Integer getClassid() {
-		return classid;
-	}
-
-	public void setClassid(Integer classid) {
-		this.classid = classid;
-	}
-
 	public Integer getTeacherstate() {
 		return teacherstate;
 	}
@@ -65,4 +59,21 @@ public class Teacher {
 	public void setTeacherTel(String teacherTel) {
 		this.teacherTel = teacherTel == null ? null : teacherTel.trim();
 	}
+
+	public String getClassesname() {
+		return classesname;
+	}
+
+	public void setClassesname(String classesname) {
+		this.classesname = classesname;
+	}
+
+	public Integer getClassid() {
+		return classid;
+	}
+
+	public void setClassid(Integer classid) {
+		this.classid = classid;
+	}
+
 }

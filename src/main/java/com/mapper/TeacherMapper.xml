@@ -1,130 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dao.TeacherMapper">
-  <resultMap id="BaseResultMap" type="com.entity.Teacher">
-    <id column="teacherId" jdbcType="INTEGER" property="teacherid" />
-    <result column="subjectId" jdbcType="INTEGER" property="subjectid" />
-    <result column="classId" jdbcType="INTEGER" property="classid" />
-    <result column="teacherState" jdbcType="INTEGER" property="teacherstate" />
-    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
-    <result column="teacher_tel" jdbcType="VARCHAR" property="teacherTel" />
-     
-  </resultMap>
-  
-  <!-- 查询全部  -->
-  <select id="getAllTeacher" resultMap="BaseResultMap">
-  select * from teacher
-  </select>
-  
-    <!-- 通过班级名称查询教师姓名和所教科目名称  -->
-  <select id="getTname"   resultType="com.entity.Teacher" parameterType="java.lang.String" >
-SELECT teacher.`teacher_name` as teacherName ,subject.`subjectName` as subjectname  FROM SUBJECT
- 
-INNER JOIN teacher ON teacher.`subjectId`=subject.`subjectId` 
+	<resultMap id="BaseResultMap" type="com.entity.Teacher">
+		<id column="teacherId" jdbcType="INTEGER" property="teacherid" />
+		<result column="subjectId" jdbcType="INTEGER" property="subjectid" />
+		<result column="teacher_name" jdbcType="INTEGER" property="teacherName" />
+		<result column="teacherState" jdbcType="INTEGER" property="teacherstate" />
+		<result column="teacher_tel" jdbcType="VARCHAR" property="teacherTel" />
+		<result column="classId" jdbcType="INTEGER" property="classid" />
 
-INNER JOIN class ON teacher.`classId`=class.`classId` 
+		<result column="subjectName" jdbcType="VARCHAR" property="subjectname" />
+		
+		<result column="className" jdbcType="VARCHAR" property="classesname" />
 
-WHERE class.`className` = #{name}
-  </select>
-  
-  
-    <!-- 模糊查询 -->
-  <select id="getTeacherFuzzyQuery"  resultMap="BaseResultMap">
-  select * from teacher 
-  </select>
-  
-  <sql id="Base_Column_List">
-    teacherId, subjectId, classId, teacherState, teacher_name, teacher_tel
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from teacher
-    where teacherId = #{teacherid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from teacher
-    where teacherId = #{teacherid,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.entity.Teacher">
-    insert into teacher (teacherId, subjectId, classId, 
-      teacherState, teacher_name, teacher_tel
-      )
-    values (#{teacherid,jdbcType=INTEGER}, #{subjectid,jdbcType=INTEGER}, #{classid,jdbcType=INTEGER}, 
-      #{teacherstate,jdbcType=INTEGER}, #{teacherName,jdbcType=VARCHAR}, #{teacherTel,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.entity.Teacher">
-    insert into teacher
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="teacherid != null">
-        teacherId,
-      </if>
-      <if test="subjectid != null">
-        subjectId,
-      </if>
-      <if test="classid != null">
-        classId,
-      </if>
-      <if test="teacherstate != null">
-        teacherState,
-      </if>
-      <if test="teacherName != null">
-        teacher_name,
-      </if>
-      <if test="teacherTel != null">
-        teacher_tel,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="teacherid != null">
-        #{teacherid,jdbcType=INTEGER},
-      </if>
-      <if test="subjectid != null">
-        #{subjectid,jdbcType=INTEGER},
-      </if>
-      <if test="classid != null">
-        #{classid,jdbcType=INTEGER},
-      </if>
-      <if test="teacherstate != null">
-        #{teacherstate,jdbcType=INTEGER},
-      </if>
-      <if test="teacherName != null">
-        #{teacherName,jdbcType=VARCHAR},
-      </if>
-      <if test="teacherTel != null">
-        #{teacherTel,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Teacher">
-    update teacher
-    <set>
-      <if test="subjectid != null">
-        subjectId = #{subjectid,jdbcType=INTEGER},
-      </if>
-      <if test="classid != null">
-        classId = #{classid,jdbcType=INTEGER},
-      </if>
-      <if test="teacherstate != null">
-        teacherState = #{teacherstate,jdbcType=INTEGER},
-      </if>
-      <if test="teacherName != null">
-        teacher_name = #{teacherName,jdbcType=VARCHAR},
-      </if>
-      <if test="teacherTel != null">
-        teacher_tel = #{teacherTel,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where teacherId = #{teacherid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.entity.Teacher">
-    update teacher
-    set subjectId = #{subjectid,jdbcType=INTEGER},
-      classId = #{classid,jdbcType=INTEGER},
-      teacherState = #{teacherstate,jdbcType=INTEGER},
-      teacher_name = #{teacherName,jdbcType=VARCHAR},
-      teacher_tel = #{teacherTel,jdbcType=VARCHAR}
-    where teacherId = #{teacherid,jdbcType=INTEGER}
-  </update>
+	</resultMap>
+
+	<!-- 查询全部 -->
+	<select id="getAllTeacher" resultMap="BaseResultMap">
+		select subject.`subjectName`,teacher.*,class.`classId`
+		FROM class
+		INNER JOIN teacherclass ON class.`classId`=teacherclass.`classId`
+		INNER JOIN teacher ON teacher.`teacherid`=teacherclass.`teacherid`
+		INNER JOIN SUBJECT ON teacher.`subjectId`=SUBJECT.`subjectid`
+	</select>
+
+	<!-- 通过班级名称查询教师姓名和所教科目名称 -->
+	<select id="getTname" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT teacher.`teacher_name` as teachername,teacher.`teacher_tel` as
+		teachertel,class.`className`,subject.`subjectName`
+		FROM class
+		INNER JOIN teacherclass ON class.`classId`=teacherclass.`classId`
+		INNER JOIN teacher ON teacher.`teacherid`=teacherclass.`teacherid`
+		INNER JOIN SUBJECT ON teacher.`subjectId`=SUBJECT.`subjectid`
+
+		WHERE class.`className` = #{name}
+	</select>
+	<!-- 通过班级名称和科目名称查询教师姓名 -->
+	<select id="getTname2" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT subject.`subjectName`,teacher.*,class.`classname`
+		FROM class
+		INNER JOIN teacherclass ON class.`classId`=teacherclass.`classId`
+		INNER JOIN teacher ON teacher.`teacherid`=teacherclass.`teacherid`
+		INNER JOIN SUBJECT ON teacher.`subjectId`=SUBJECT.`subjectid`
+		WHERE subject.`subjectName`=#{1} AND class.`className`=#{0}
+	</select>
+
+	<sql id="Base_Column_List">
+		teacherId, subjectId, classId, teacherState, teacher_name, teacher_tel
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from teacher
+		where teacherId = #{teacherid,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from teacher
+		where teacherId = #{teacherid,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.entity.Teacher">
+		insert into teacher (teacherId, subjectId, classId,
+		teacherState, teacher_name, teacher_tel
+		)
+		values (#{teacherid,jdbcType=INTEGER}, #{subjectid,jdbcType=INTEGER},
+		#{classid,jdbcType=INTEGER},
+		#{teacherstate,jdbcType=INTEGER}, #{teacherName,jdbcType=VARCHAR}, #{teacherTel,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.entity.Teacher">
+		insert into teacher
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="teacherid != null">
+				teacherId,
+			</if>
+			<if test="subjectid != null">
+				subjectId,
+			</if>
+			<if test="classid != null">
+				classId,
+			</if>
+			<if test="teacherstate != null">
+				teacherState,
+			</if>
+			<if test="teacherName != null">
+				teacher_name,
+			</if>
+			<if test="teacherTel != null">
+				teacher_tel,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="teacherid != null">
+				#{teacherid,jdbcType=INTEGER},
+			</if>
+			<if test="subjectid != null">
+				#{subjectid,jdbcType=INTEGER},
+			</if>
+			<if test="classid != null">
+				#{classid,jdbcType=INTEGER},
+			</if>
+			<if test="teacherstate != null">
+				#{teacherstate,jdbcType=INTEGER},
+			</if>
+			<if test="teacherName != null">
+				#{teacherName,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherTel != null">
+				#{teacherTel,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.entity.Teacher">
+		update teacher
+		<set>
+			<if test="subjectid != null">
+				subjectId = #{subjectid,jdbcType=INTEGER},
+			</if>
+			<if test="classid != null">
+				classId = #{classid,jdbcType=INTEGER},
+			</if>
+			<if test="teacherstate != null">
+				teacherState = #{teacherstate,jdbcType=INTEGER},
+			</if>
+			<if test="teacherName != null">
+				teacher_name = #{teacherName,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherTel != null">
+				teacher_tel = #{teacherTel,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where teacherId = #{teacherid,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.entity.Teacher">
+		update teacher
+		set subjectId = #{subjectid,jdbcType=INTEGER},
+		classId = #{classid,jdbcType=INTEGER},
+		teacherState = #{teacherstate,jdbcType=INTEGER},
+		teacher_name = #{teacherName,jdbcType=VARCHAR},
+		teacher_tel = #{teacherTel,jdbcType=VARCHAR}
+		where teacherId = #{teacherid,jdbcType=INTEGER}
+	</update>
 </mapper>

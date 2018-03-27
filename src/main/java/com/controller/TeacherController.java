@@ -1,11 +1,12 @@
 package com.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,12 +23,12 @@ public class TeacherController {
 	
 	
 	@RequestMapping("json/QueryAllTeacher")
-	@ResponseBody
-	public List<Teacher> getAllTeacher(){
+	public String getAllTeacher(Model model){
 		
 		List<Teacher> tlists=teacherService.getAllTeacher();
+		model.addAttribute("tlists", tlists);
 		
-		return tlists;
+		return "../teacher.jsp";
 	}
 
 	@RequestMapping("json/QueryTeacher")
