@@ -14,6 +14,7 @@ public interface TeacherService {
 	
 	List<Teacher> getTname(String classname);
 
+	//通过科目和班级获得老师
 	List<Teacher> getTname2(String classname,String subjectname);
 	
 

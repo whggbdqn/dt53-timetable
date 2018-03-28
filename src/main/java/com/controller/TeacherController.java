@@ -40,5 +40,15 @@ public class TeacherController {
 		return tlists;
 	}
 
+	//通过课程和科目找老师
+	@RequestMapping("json/QueryTeacher2")
+	@ResponseBody
+	public List<Teacher> QueryTeacherBySubjectAndClass(String className,String subjectName){
+		
+		List<Teacher> tlists=teacherService.getTname2(className,subjectName);
+		
+		return tlists;
+	}
+
 	
 }
