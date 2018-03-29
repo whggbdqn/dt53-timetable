@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.entity.Class;
 import com.entity.ClassTableJson;
 import com.entity.Param;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -43,6 +45,12 @@ public class ClassController {
 	private ClassService classService;
 	@Autowired
 	private ScheduleinfoService scheduleinfoService;
+	
+	@RequestMapping("getAllClassAjax")
+	@ResponseBody
+	public List<Class> getAllClassAjax(){
+		return classService.getAllClassBySzx();
+	}
 
 	
 	@RequestMapping("changeCnameByCstate")

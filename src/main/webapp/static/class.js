@@ -26,23 +26,58 @@ $(function() {
 	
 	
 	//双击【班级名称】表格事件
-			$(document).off('dblclick','.className,.teacherName,.classInfo').on('dblclick','.className,.teacherName,.classInfo',function(){
-				var parentNode=$(this);
-				//console.log($(this).text());
-				//点击班级框，执行的事件
-				if($(this).hasClass("className")){
-					
-					openSelect($(this));
-					changeSelect(parentNode);
+			$(document).off('dblclick','.getAllClasses,.teacherName,.classInfo').on('dblclick','.className,.teacherName,.classInfo',function(){
+				var $index = $(this).index();
+				//除开晚自习点击
+				if($index!=8 && $index!=9 && $index!=10){
+					var parentNode=$(this);
+					//console.log($(this).text());
+					//点击班级框，执行的事件
+					if($(this).hasClass("className")){
+						
+						openSelect($(this));
+						changeSelect(parentNode);
+					}
+					//点击课程框，执行的事件
+					if($(this).hasClass("classInfo")){
+						getTeacherBySubjectAndClass($(this));
+						
+					}
+				}else if($index==8){
+					//晚自习点击
+
+					eveClass($(this));
 				}
-				//点击课程框，执行的事件
-				if($(this).hasClass("classInfo")){
-					getTeacherBySubjectAndClass($(this));
-					
-				}
-				//console.log("11111111111"+$(this).parent().html());
+
 
 			});
+			
+		/**
+		 * 处理晚自习
+		 */	
+		var eveClass = function(td){
+			if($(td).text()==""){
+
+				//alert($(td).parent().children().eq(2).html());
+				var tdChild = $(td).parent().children();
+				//如果上午的班级不为空，则将晚自习的班级名和上午同步
+				if($(tdChild).eq(2).text()!=null){
+					$(td).html($(tdChild).eq(2).text());
+					//将下午的老师和科目填充到晚自习
+					$(td).next().html($(tdChild).eq(6).text());
+					$(td).next().next().html("自习");
+				}
+			
+			}else{
+				$(td).text("");
+				$(td).next().text("");
+				$(td).next().next().text("");
+			}
+			
+			
+			
+			
+		}	
 	//点击清空课表事件
 			$(document).off('click','#clean').on('click','#clean',function(){
 				if(confirm('确认清空吗？')){
@@ -64,21 +99,52 @@ $(function() {
 	/**
 	 * 异步获得所有老师
 	 */
+		
 	var getAllTeacher = function(){
+		var teacherArray=[];
 		$.ajax({
 			url:'json/QueryAllTeacherAjax.do',
 			type:'post',
 			dataType:'json',
 			data:null,
+			//异步请求设置为同步请求,解决传值出去的问题 
+			async:false,
 			success:function(data){
+				
 				if(data.length>0){
 					for (var int = 0; int < data.length; int++) {
-						alert(data[i].teacherName);
-
-					}
-				}
-			}	
+						teacherArray.push(data[int].teacherName);
+					}					
+				}				
+			}			
 		});	
+		return teacherArray;
+	}	
+	
+	/**
+	 * 异步获得所有班级
+	 */
+		
+	var getAllClasses = function(){
+		var classArray=[];
+		$.ajax({
+			url:'getAllClassAjax.do',
+			type:'post',
+			dataType:'json',
+			data:null,
+			//异步请求设置为同步请求,解决传值出去的问题 
+			async:false,
+			success:function(data){
+				
+				if(data.length>0){
+					for (var int = 0; int < data.length; int++) {
+						classArray.push(data[int].classname);
+					}
+					
+				}				
+			}			
+		});	
+		return classArray;
 	}	
 			
 	/**
@@ -802,16 +868,16 @@ $(function() {
 				}
 				//设置所有班级名称的class
 				if(j%3==0){
-					tbody+="<td style=\"width:180px;\" class=\"className\"></td>";
+					tbody+="<td align=\"center\" style=\"width:180px;\" class=\"className\"></td>";
 				}
 				//设置所有老师的class
 				if(j%4==0){
-					tbody+="<td style=\"width:180px;\" class=\"teacherName\"></td>";
+					tbody+="<td align=\"center\" style=\"width:180px;\" class=\"teacherName\"></td>";
 				}
 				
 				//设置所有课程的class
 				if(j==2 || j==5 || j==8){
-					tbody+="<td style=\"width:180px;\" class=\"classInfo\"></td>";
+					tbody+="<td align=\"center\" style=\"width:180px;\" class=\"classInfo\"></td>";
 				}	
 				
 			}

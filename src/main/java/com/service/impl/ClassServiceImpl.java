@@ -28,4 +28,10 @@ public class ClassServiceImpl implements ClassService {
 		return classMapper.updateClassStateByName(p);
 	}
 
+	@Override
+	public List<Class> getAllClassBySzx() {
+		// TODO Auto-generated method stub
+		return classMapper.getAllClassBySzx();
+	}
+
 }

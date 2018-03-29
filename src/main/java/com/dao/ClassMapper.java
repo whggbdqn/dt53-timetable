@@ -35,5 +35,11 @@ public interface ClassMapper {
 	int updateClassStateByName(Param p);
 
 	List<Class> getAllClassByState(Param p);
+	
+	/**
+	 * 获得所有班级
+	 * @return
+	 */
+	List<Class> getAllClassBySzx();
 
 }

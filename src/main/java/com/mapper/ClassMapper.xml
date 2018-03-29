@@ -27,6 +27,11 @@
   		UPDATE class SET classState=#{state} WHERE className=#{className}
   </update>
   
+  <!-- 查询所有班级 -->
+  <select id="getAllClassBySzx" resultMap="BaseResultMap">
+  	select * from class
+  </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

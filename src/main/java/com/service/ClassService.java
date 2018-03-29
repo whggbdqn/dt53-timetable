@@ -20,4 +20,10 @@ public interface ClassService {
 	 * @return 影响行数
 	 */
 	int updateClassStateByName(Param p);
+	
+	/**
+	 * 获得所有班级
+	 * @return
+	 */
+	List<Class> getAllClassBySzx();
 }
