@@ -1,11 +1,13 @@
 package com.controller;
 
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,12 +16,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.entity.ClassTableJson;
 import com.entity.Param;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ClassService;
+import com.service.ScheduleinfoService;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+
+
 
 /**
  * 处理课程交互数据
@@ -27,12 +35,14 @@ import net.sf.json.JSONObject;
  *
  */
 
-
+@SuppressWarnings("unchecked")
 @Controller
 public class ClassController {
 	
 	@Autowired
 	private ClassService classService;
+	@Autowired
+	private ScheduleinfoService scheduleinfoService;
 
 	
 	@RequestMapping("changeCnameByCstate")
@@ -58,30 +68,40 @@ public class ClassController {
 		return update;		
 	}
 	
+
 	@RequestMapping("saveClassTable")
 	public void saveClassTable(String classTable){
-		//System.out.println(classTable);
-		JSONArray jsonArray = JSONArray.fromObject(classTable);
-		Object[] os = jsonArray.toArray();
-		List<ClassTableJson> classList=new ArrayList<ClassTableJson>();
-		for (int i = 0; i < os.length; i++) {
-			Object[] os0 = JSONArray.fromObject(os[i]).toArray();
-			for (int j = 0; j < os0.length; j++) {
-				System.out.println(os0[j]);
-				ClassTableJson classTableJson = (ClassTableJson)JSONObject.toBean((JSONObject)os0[j],ClassTableJson.class);
-				System.out.println(classTableJson.getWeekday());
-				classList.add(classTableJson);
-			}
-		}
-		//获取所有提交表格的集合
-		System.out.println(classList);
 		
+		if(null!=classTable){
+
+			//将json二维数组循环映射到实体
+			ObjectMapper objectMapper = new ObjectMapper();
+				try {
+			        List<ArrayList<String>> list = objectMapper.readValue(classTable,List.class);
+			        //删除原课表 
+			        scheduleinfoService.deleteAllSchedule();
+			        
+			        for (int i = 0; i < list.size(); i++) {
+			        	for (int j = 0; j < list.get(i).size(); j++) {
+			        		System.out.println(list.get(i).get(j));
+			        		 ClassTableJson classTableJson = objectMapper.readValue(list.get(i).get(j), ClassTableJson.class);
+			        	     System.out.println(classTableJson.getWeekday());
+							//调方法存入数据库
+			        	     scheduleinfoService.insertSelective(classTableJson);
+		   	     
+						}
+			        }
+			        
+			    } catch (JsonParseException e) {
+			        e.printStackTrace();
+			    } catch (JsonMappingException e) {
+			        e.printStackTrace();
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			    }
 		
-		
-		/*for (int i = 0; i < os.length; i++) {
-			os2.add(JSONArray.fromObject(os[i]).toArray());
-		}*/
-		//System.out.println(os2.get(0));
+	}
+
 	}
 	
 	

@@ -21,6 +21,15 @@ public class TeacherController {
 	@Autowired
 	private TeacherService teacherService;	
 	
+	//异步返回所有老师数据
+	@RequestMapping("json/QueryAllTeacherAjax")
+	@ResponseBody
+	public List<Teacher> getAllTeacherByAjax(){		
+		List<Teacher> tlists=teacherService.getAllTeacher();	
+		return tlists;
+	}
+	
+	
 	
 	@RequestMapping("json/QueryAllTeacher")
 	public String getAllTeacher(Model model){

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.ScheduleinfoMapper">
+  <resultMap id="BaseResultMap" type="com.entity.Scheduleinfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dateTime" jdbcType="VARCHAR" property="datetime" />
+    <result column="weekday" jdbcType="VARCHAR" property="weekday" />
+    <result column="classroom" jdbcType="VARCHAR" property="classroom" />
+    <result column="className_am" jdbcType="VARCHAR" property="classnameAm" />
+    <result column="teachername_am" jdbcType="VARCHAR" property="teachernameAm" />
+    <result column="classInfo_am" jdbcType="VARCHAR" property="classinfoAm" />
+    <result column="className_pm" jdbcType="VARCHAR" property="classnamePm" />
+    <result column="teachername_pm" jdbcType="VARCHAR" property="teachernamePm" />
+    <result column="classInfo_pm" jdbcType="VARCHAR" property="classinfoPm" />
+    <result column="className_eve" jdbcType="VARCHAR" property="classnameEve" />
+    <result column="teachername_eve" jdbcType="VARCHAR" property="teachernameEve" />
+    <result column="classInfo_eve" jdbcType="VARCHAR" property="classinfoEve" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, dateTime, weekday, classroom, className_am, teachername_am, classInfo_am, className_pm, 
+    teachername_pm, classInfo_pm, className_eve, teachername_eve, classInfo_eve
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from scheduleinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from scheduleinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.Scheduleinfo">
+    insert into scheduleinfo (id, dateTime, weekday, 
+      classroom, className_am, teachername_am, 
+      classInfo_am, className_pm, teachername_pm, 
+      classInfo_pm, className_eve, teachername_eve, 
+      classInfo_eve)
+    values (#{id,jdbcType=INTEGER}, #{datetime,jdbcType=VARCHAR}, #{weekday,jdbcType=VARCHAR}, 
+      #{classroom,jdbcType=VARCHAR}, #{classnameAm,jdbcType=VARCHAR}, #{teachernameAm,jdbcType=VARCHAR}, 
+      #{classinfoAm,jdbcType=VARCHAR}, #{classnamePm,jdbcType=VARCHAR}, #{teachernamePm,jdbcType=VARCHAR}, 
+      #{classinfoPm,jdbcType=VARCHAR}, #{classnameEve,jdbcType=VARCHAR}, #{teachernameEve,jdbcType=VARCHAR}, 
+      #{classinfoEve,jdbcType=VARCHAR})
+  </insert>
+  <!-- 删除表所有信息 -->
+  <delete id="deleteAllSchedule">
+  		delete from scheduleinfo
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.entity.ClassTableJson">
+    insert into scheduleinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dateTime != null">
+        dateTime,
+      </if>
+      <if test="weekday != null">
+        weekday,
+      </if>
+      <if test="classroom != null">
+        classroom,
+      </if>
+      <if test="className_am != null">
+        className_am,
+      </if>
+      <if test="teachername_am != null">
+        teachername_am,
+      </if>
+      <if test="classInfo_am != null">
+        classInfo_am,
+      </if>
+      <if test="className_pm != null">
+        className_pm,
+      </if>
+      <if test="teachername_pm != null">
+        teachername_pm,
+      </if>
+      <if test="classInfo_pm != null">
+        classInfo_pm,
+      </if>
+      <if test="className_eve != null">
+        className_eve,
+      </if>
+      <if test="teachername_eve != null">
+        teachername_eve,
+      </if>
+      <if test="classInfo_eve != null">
+        classInfo_eve,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dateTime != null">
+        #{dateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="weekday != null">
+        #{weekday,jdbcType=VARCHAR},
+      </if>
+      <if test="classroom != null">
+        #{classroom,jdbcType=VARCHAR},
+      </if>
+      <if test="className_am != null">
+        #{className_am,jdbcType=VARCHAR},
+      </if>
+      <if test="teachername_am != null">
+        #{teachername_am,jdbcType=VARCHAR},
+      </if>
+      <if test="classInfo_am != null">
+        #{classInfo_am,jdbcType=VARCHAR},
+      </if>
+      <if test="className_pm != null">
+        #{className_pm,jdbcType=VARCHAR},
+      </if>
+      <if test="teachername_pm != null">
+        #{teachername_pm,jdbcType=VARCHAR},
+      </if>
+      <if test="classInfo_pm != null">
+        #{classInfo_pm,jdbcType=VARCHAR},
+      </if>
+      <if test="className_eve != null">
+        #{className_eve,jdbcType=VARCHAR},
+      </if>
+      <if test="teachername_eve != null">
+        #{teachername_eve,jdbcType=VARCHAR},
+      </if>
+      <if test="classInfo_eve != null">
+        #{classInfo_eve,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.entity.Scheduleinfo">
+    update scheduleinfo
+    <set>
+      <if test="datetime != null">
+        dateTime = #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="weekday != null">
+        weekday = #{weekday,jdbcType=VARCHAR},
+      </if>
+      <if test="classroom != null">
+        classroom = #{classroom,jdbcType=VARCHAR},
+      </if>
+      <if test="classnameAm != null">
+        className_am = #{classnameAm,jdbcType=VARCHAR},
+      </if>
+      <if test="teachernameAm != null">
+        teachername_am = #{teachernameAm,jdbcType=VARCHAR},
+      </if>
+      <if test="classinfoAm != null">
+        classInfo_am = #{classinfoAm,jdbcType=VARCHAR},
+      </if>
+      <if test="classnamePm != null">
+        className_pm = #{classnamePm,jdbcType=VARCHAR},
+      </if>
+      <if test="teachernamePm != null">
+        teachername_pm = #{teachernamePm,jdbcType=VARCHAR},
+      </if>
+      <if test="classinfoPm != null">
+        classInfo_pm = #{classinfoPm,jdbcType=VARCHAR},
+      </if>
+      <if test="classnameEve != null">
+        className_eve = #{classnameEve,jdbcType=VARCHAR},
+      </if>
+      <if test="teachernameEve != null">
+        teachername_eve = #{teachernameEve,jdbcType=VARCHAR},
+      </if>
+      <if test="classinfoEve != null">
+        classInfo_eve = #{classinfoEve,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.entity.Scheduleinfo">
+    update scheduleinfo
+    set dateTime = #{datetime,jdbcType=VARCHAR},
+      weekday = #{weekday,jdbcType=VARCHAR},
+      classroom = #{classroom,jdbcType=VARCHAR},
+      className_am = #{classnameAm,jdbcType=VARCHAR},
+      teachername_am = #{teachernameAm,jdbcType=VARCHAR},
+      classInfo_am = #{classinfoAm,jdbcType=VARCHAR},
+      className_pm = #{classnamePm,jdbcType=VARCHAR},
+      teachername_pm = #{teachernamePm,jdbcType=VARCHAR},
+      classInfo_pm = #{classinfoPm,jdbcType=VARCHAR},
+      className_eve = #{classnameEve,jdbcType=VARCHAR},
+      teachername_eve = #{teachernameEve,jdbcType=VARCHAR},
+      classInfo_eve = #{classinfoEve,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

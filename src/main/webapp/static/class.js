@@ -5,7 +5,7 @@
 $(function() {
 	
 	//阻止浏览器默认右键点击事件
-	$(".className,.teacherName,.classInfo").bind("contextmenu", function(){
+	/*$(".className,.teacherName,.classInfo").bind("contextmenu", function(){
 	    return false;
 	});
 	
@@ -21,7 +21,7 @@ $(function() {
 	    } else if (1 == e.which) {
 	       
 	    }
-	});
+	});*/
 	
 	
 	
@@ -43,8 +43,43 @@ $(function() {
 				//console.log("11111111111"+$(this).parent().html());
 
 			});
+	//点击清空课表事件
+			$(document).off('click','#clean').on('click','#clean',function(){
+				if(confirm('确认清空吗？')){
+					cleanClassTable();
+					
+				}
 			
+			});
 			
+		/**
+		 * 清空课表
+		 */	
+		var cleanClassTable = function(){
+			$('.className,.teacherName,.classInfo').text('');
+			//数组回空
+			day1Box=[],day2Box=[],day3Box=[],day4Box=[],day5Box=[],day6Box=[],day7Box=[],classTable=[];
+		}	
+			
+	/**
+	 * 异步获得所有老师
+	 */
+	var getAllTeacher = function(){
+		$.ajax({
+			url:'json/QueryAllTeacherAjax.do',
+			type:'post',
+			dataType:'json',
+			data:null,
+			success:function(data){
+				if(data.length>0){
+					for (var int = 0; int < data.length; int++) {
+						alert(data[i].teacherName);
+
+					}
+				}
+			}	
+		});	
+	}	
 			
 	/**
 	 * 通过科目和班级确定老师
@@ -269,26 +304,29 @@ $(function() {
 	}
 	
 	/**
-	 * 点击保存将数据全度存储到数据库
+	 * 点击保存将数据全部存储到数据库
 	 */
 	$(document).off('click','#save').on('click','#save',function(){
-		var classTable=[];
-		for (var int = 1; int < 8; int++) {
-			//将拼接的字符串还原为数组
-			var obj=eval("("+"day"+int+"Box"+")");
+		if(confirm('确定保存吗？')){
+			
 
-			if(obj.length>0){
-				classTable.push(obj);
-				judgeThird(classTable);
+			var classTable=[];
+			for (var int = 1; int < 8; int++) {
+				//将拼接的字符串还原为数组
+				var obj=eval("("+"day"+int+"Box"+")");
+	
+				if(obj.length>0){
+					classTable.push(obj);
+					judgeThird(null,classTable);
+				}
 			}
+			//转换为json字符串
+			var json = JSON.stringify(classTable);
+	
+			//alert(json);
+			saveClassTable(json);
+
 		}
-		//转换为json字符串
-		var json = JSON.stringify(classTable);
-
-		//alert(json);
-		saveClassTable(json);
-
-		
 	});
 	
 	/**
@@ -370,7 +408,7 @@ $(function() {
 
 				if(obj.length>0){
 					classTable.push(obj);
-					judgeThird($(td),classTable);
+					//judgeThird($(td),classTable);
 				}
 			}
 			
@@ -417,7 +455,7 @@ $(function() {
 
 				if(obj.length>0){
 					classTable.push(obj);
-					judgeThird($(td),classTable);
+					//judgeThird($(td),classTable);
 				}
 			}
 		  break;
@@ -462,7 +500,7 @@ $(function() {
 
 				if(obj.length>0){
 					classTable.push(obj);
-					judgeThird($(td),classTable);
+					//judgeThird($(td),classTable);
 				}
 			}
 			
@@ -500,7 +538,7 @@ $(function() {
 				}
 				
 			}
-			
+
 			var classTable=[];
 			for (var int = 1; int < 8; int++) {
 				//将拼接的字符串还原为数组
@@ -508,7 +546,7 @@ $(function() {
 
 				if(obj.length>0){
 					classTable.push(obj);
-					judgeThird($(td),classTable);
+					//judgeThird($(td),classTable);
 				}
 			}
 			  break;
@@ -553,7 +591,7 @@ $(function() {
 
 				if(obj.length>0){
 					classTable.push(obj);
-					judgeThird($(td),classTable);
+					//judgeThird($(td),classTable);
 				}
 			}
 			  break;
@@ -598,7 +636,7 @@ $(function() {
 
 				if(obj.length>0){
 					classTable.push(obj);
-					judgeThird($(td),classTable);
+					//judgeThird($(td),classTable);
 				}
 			}
 			  break;
@@ -635,7 +673,6 @@ $(function() {
 				}
 				
 			}
-			
 			var classTable=[];
 			for (var int = 1; int < 8; int++) {
 				//将拼接的字符串还原为数组
@@ -643,13 +680,15 @@ $(function() {
 
 				if(obj.length>0){
 					classTable.push(obj);
-					judgeThird($(td),classTable);
+					//judgeThird($(td),classTable);
 				}
 			}
-			  break;
+			
+			break;
 
 		}
-		
+		judgeThird($(td),classTable);
+
 	}
 
 	
@@ -663,18 +702,24 @@ $(function() {
 		$td=$(td);
 		if($(td)!=""){
 			//装字段的数组,装当前星期数，教室名，上午，下午，晚上的班级名，老师名，年级信息
-			var box=["weekday","classroom","className_am","teachername_am","classInfo_am","className_pm","teachername_pm","classInfo_pm","className_eve","teachername_eve","classInfo_eve"];
+			var box=["weekday","classroom","className_am","teachername_am","classInfo_am","className_pm","teachername_pm","classInfo_pm","className_eve","teachername_eve","classInfo_eve","dateTime"];
 			$(td).parent().each(function(){
 				var json="{";
 				for (var int = 0; int < $(this).children("td").length; int++) {
 					//循环获取一行的值
 					var tdVal=$(this).children("td").eq(int).text();
+					//alert(tdVal.substring(0, tdVal.length-5));
 					if(int==0){
+						json+="\""+box[box.length-1]+"\":\""+tdVal.substring(0, tdVal.length-5)+"\",";
 						json+="\""+box[int]+"\":\""+tdVal.substring(tdVal.length-4, tdVal.length-1)+"\",";
+						
+					
 					}
 					if(int!=0){
 						json+="\""+box[int]+"\":\""+tdVal+"\",";
 					}
+
+
 					
 					//console.log($(this).children("td").eq(int).text());
 					
@@ -682,6 +727,7 @@ $(function() {
 				//去掉最后一个逗号
 				var newJson = json.substring(0,json.length-1);
 				newJson+="}";
+				//alert(newJson);
 				
 				//将json数据装入当天的json数组中
 				distributeToDayArray($td,newJson);

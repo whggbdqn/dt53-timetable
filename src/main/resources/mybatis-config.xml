@@ -18,6 +18,7 @@
 	   <mapper resource="com/mapper/TeacherclassMapper.xml"></mapper>	
 	   <mapper resource="com/mapper/TeacherMapper.xml"></mapper>
 	   <mapper resource="com/mapper/TeachertimeMapper.xml"></mapper>	
-	   <mapper resource="com/mapper/TimeMapper.xml"></mapper>			
+	   <mapper resource="com/mapper/TimeMapper.xml"></mapper>	
+	   <mapper resource="com/mapper/ScheduleinfoMapper.xml"></mapper>		
 	</mappers>
 </configuration>

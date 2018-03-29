@@ -22,47 +22,22 @@
       <property name="forceBigDecimals" value="false" />
     </javaTypeResolver>
 
-    <javaModelGenerator targetPackage="com.entity" targetProject="ClassProject">
+    <javaModelGenerator targetPackage="com.entity" targetProject="dt53-timetable">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
 
-    <sqlMapGenerator targetPackage="com.mapper"  targetProject="ClassProject">
+    <sqlMapGenerator targetPackage="com.mapper"  targetProject="dt53-timetable">
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
 
-    <javaClientGenerator type="XMLMAPPER" targetPackage="com.dao"  targetProject="ClassProject">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.dao"  targetProject="dt53-timetable">
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
     
-    <table schema="lastproject" tableName="class"  enableCountByExample="false" enableUpdateByExample="false"
+    <table schema="lastproject" tableName="scheduleinfo"  enableCountByExample="false" enableUpdateByExample="false"
            enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
     </table>
-    
-    <table schema="lastproject" tableName="classandroom"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    
-    <table schema="lastproject" tableName="classroom"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="lastproject" tableName="roomtime"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="lastproject" tableName="subject"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="lastproject" tableName="teacher"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="lastproject" tableName="teacherclass"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="lastproject" tableName="teachertime"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
-    <table schema="lastproject" tableName="time"  enableCountByExample="false" enableUpdateByExample="false"
-           enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-    </table>
+   
   </context>
 </generatorConfiguration>
