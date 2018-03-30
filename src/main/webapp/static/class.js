@@ -26,10 +26,13 @@ $(function() {
 	
 	
 	//双击【班级名称】表格事件
-			$(document).off('dblclick','.getAllClasses,.teacherName,.classInfo').on('dblclick','.className,.teacherName,.classInfo',function(){
+			$(document).off('dblclick','.className,.classInfo').on('dblclick','.className,.classInfo',function(){
 				var $index = $(this).index();
 				//除开晚自习点击
-				if($index!=8 && $index!=9 && $index!=10){
+				//判断如果年级表格框选择的值不为‘请选择班级’ 且 年级表格框没有被select选中的值，才执行下面的事件
+				if($index!=8 && $index!=9 && $index!=10 && 
+					($(".className").find("option:selected").val()!='chooseClass') && ($(".className").find("option:selected").length==0)		
+				){
 					var parentNode=$(this);
 					//console.log($(this).text());
 					//点击班级框，执行的事件
@@ -61,23 +64,93 @@ $(function() {
 				//alert($(td).parent().children().eq(2).html());
 				var tdChild = $(td).parent().children();
 				//如果上午的班级不为空，则将晚自习的班级名和上午同步
-				if($(tdChild).eq(2).text()!=null){
+				if($(tdChild).eq(2).text()!=""){
 					$(td).html($(tdChild).eq(2).text());
 					//将下午的老师和科目填充到晚自习
 					$(td).next().html($(tdChild).eq(6).text());
-					$(td).next().next().html("自习");
+					$(td).next().next().text("自习");
+					
+					//遍历数组，向数组的列插入数据
+					addEveClass($(td));
 				}
 			
 			}else{
 				$(td).text("");
 				$(td).next().text("");
 				$(td).next().next().text("");
+				
+				//遍历数组，向数组的当前列删除数据
 			}
-			
-			
-			
-			
+	
 		}	
+	
+	/**
+	 * 封装循环数组，修改数组中数据的方法
+	 * td 当前表格
+	 * array 数组
+	 */	
+	var forArray = function(td,array){
+		//获得当前行所在教室
+		var classroom=$(td).parent().children().eq(1).text();
+				
+		//遍历当前数组，找出数组中的当前行，添加晚自习
+		for (var int = 0; int < array.length; int++) {
+			//如果数组中的教室与当前行的教室符合，则晚自习添加进去
+			if(JSON.parse(array[int]).classroom==classroom){
+				//将数组中的一条转为json对象
+				var jsonObj = JSON.parse(array[int]);
+				jsonObj.className_eve = $(td).text();
+				jsonObj.teachername_eve = $(td).next().text();
+				jsonObj.classInfo_eve = $(td).next().next().text();
+				//json对象转字符串
+				var last = JSON.stringify(jsonObj);
+				//修改数组中的数据
+				array[int] = last;
+				
+			}
+		}
+		//alert(array);
+		
+	}	
+		
+	/**
+	 * 将晚自习的数据插入当前列所在的数组中，方便存入后台
+	 */	
+	var addEveClass = function(td){
+		//获得当前行的时间和星期数
+		var week=$(td).parent().children().eq(0).text();
+		//拆分出星期数
+		var nowWeek=week.split(/\[|\]/)[1];
+		
+		switch (nowWeek) {
+		case '星期一':
+			forArray($(td),day1Box);
+			break;
+		case '星期二':
+			forArray($(td),day2Box);
+			break;
+		case '星期三':
+			forArray($(td),day3Box);
+			break;
+		case '星期四':
+			forArray($(td),day4Box);
+			break;
+		case '星期五':
+			forArray($(td),day5Box);
+			break;
+		case '星期六':
+			forArray($(td),day6Box);
+			break;
+		case '星期日':
+			forArray($(td),day7Box);
+			break;
+}
+		
+		
+		
+	}	
+		
+		
 	//点击清空课表事件
 			$(document).off('click','#clean').on('click','#clean',function(){
 				if(confirm('确认清空吗？')){
@@ -287,11 +360,12 @@ $(function() {
 		//如果td中没有多选框，进行操作
 		if($(td).find("select").length==0){
 			//1.获取所有节点
-			var allNode = $(".className,.teacherName,.classInfo");
+			//var allNode = $(".className,.teacherName,.classInfo");
+			var allNode = $(".className");
 			//2.遍历所有节点，取消所有其他节点的选中状态
 			allNode.each(function(index,element){
 				//获取所有含有select的表格
-				if($(this).find("select").length!=0){
+				if($(this).find("select").length>0){
 					//将select的值通过改变html的方式赋给表格，相当于取消上一个表格的编辑状态
 					var val=$(this).find("option:selected").html();
 					//console.log(val);
@@ -409,7 +483,80 @@ $(function() {
 		});	
 	}
 	
-	
+	/**
+     * 将JSON数据中的 /r/n 替换 为 /n
+     */
+    var JsonFilter = function(jsonstr) {
+        jsonstr = jsonstr.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
+        return jsonstr;
+    }
+    
+    /**
+     * 数组装载数据
+     * array 数组
+     * td 当前表格
+     * dayJson json字符串
+     * classTable 装载7天数组的数组
+     */
+    var addDataToArray = function(td,array,dayJson,classTable){
+    	console.log(array);
+    	//由JSON字符串转换为JSON对象
+    			//debugger;
+    			var parseStr = JsonFilter(dayJson);
+
+    			var jsonObj = JSON.parse(parseStr); 
+    			//获取当前教室
+    			var classroom = jsonObj.classroom;
+    			
+    	if(array.length>0){	
+			for (var int = 0; int < array.length; int++) {
+				//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
+				if(JSON.parse(array[int]).classroom==classroom){
+					
+					array[int]=parseStr;
+					//alert(day1Box);
+					//获取是否符合 同一时间，只能老师出现一次的规则
+					var x = second(array);
+					if(x!=undefined){
+						if(x==false){
+							var children = $(td).parent().children();
+							for (var int = 2; int < children.length; int++) {
+								$(children[int]).text("");
+							}
+							
+						}
+						
+					}
+					
+					return;
+				}
+			}
+		}
+		
+    	array.push(parseStr);
+		//alert(day1Box);
+		var x = second(array);
+		if(x!=undefined){
+			if(x==false){
+				var children = $(td).parent().children();
+				for (var int = 2; int < children.length; int++) {
+					$(children[int]).text("");
+				}
+			}
+		}
+		//循环将所有数组装入7天总数组中
+		for (var int = 1; int < 8; int++) {
+			//将拼接的字符串还原为数组
+			var obj=eval("("+"day"+int+"Box"+")");
+
+			if(obj.length>0){
+				classTable.push(obj);
+			
+			}
+		}
+		
+    }
+
 
 	
 	/**
@@ -422,337 +569,56 @@ $(function() {
 	
 	var distributeToDayArray = function(td,dayJson){
 		//由JSON字符串转换为JSON对象
-		var jsonObj = JSON.parse(dayJson); 
+		//debugger;
+		var parseStr = JsonFilter(dayJson);
+		console.log(parseStr);
+		var jsonObj = JSON.parse(parseStr); 
 		//获取当前时间
 		var week = jsonObj.weekday;
 		//获取当前教室
 		var classroom = jsonObj.classroom;
 		//不同时间段，分发进不同数组
-		switch(week)
-		{
+		switch(week){
 		case '星期一':
-			console.log(day1Box);
-			if(day1Box.length>0){	
-				for (var int = 0; int < day1Box.length; int++) {
-					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
-					if(JSON.parse(day1Box[int]).classroom==classroom){
-						day1Box[int]=dayJson;
-						//alert(day1Box);
-						//获取是否符合 同一时间，只能老师出现一次的规则
-						var x = second(day1Box);
-						if(x!=undefined){
-							if(x==false){
-								var children = $(td).parent().children();
-								for (var int = 2; int < children.length; int++) {
-									$(children[int]).text("");
-								}
-								
-							}
-							
-						}
-						
-						return;
-					}
-				}
-			}
-			
-			day1Box.push(dayJson);
-			//alert(day1Box);
-			var x = second(day1Box);
-			if(x!=undefined){
-				if(x==false){
-					var children = $(td).parent().children();
-					for (var int = 2; int < children.length; int++) {
-						$(children[int]).text("");
-					}
-				}
-			}
 			var classTable=[];
-			for (var int = 1; int < 8; int++) {
-				//将拼接的字符串还原为数组
-				var obj=eval("("+"day"+int+"Box"+")");
-
-				if(obj.length>0){
-					classTable.push(obj);
-					//judgeThird($(td),classTable);
-				}
-			}
-			
-		  break;
+			addDataToArray($(td),day1Box,dayJson,classTable);
+		
+			break;
 		case '星期二':
-			console.log(day2Box);
-			if(day2Box.length>0){	
-				for (var int = 0; int < day2Box.length; int++) {
-					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
-					if(JSON.parse(day2Box[int]).classroom==classroom){
-						day2Box[int]=dayJson;
-						//获取是否符合 同一时间，只能老师出现一次的规则
-						var x = second(day2Box);
-						if(x!=undefined){
-							if(x==false){
-								var children = $(td).parent().children();
-								for (var int = 2; int < children.length; int++) {
-									$(children[int]).text("");
-								}
-							}
-							
-						}
-						return;
-					}
-				}
-			}
-			day2Box.push(dayJson);
-			//获取是否符合 同一时间，只能老师出现一次的规则
-			var x = second(day2Box);
-			if(x!=undefined){
-				if(x==false){
-					var children = $(td).parent().children();
-					for (var int = 2; int < children.length; int++) {
-						$(children[int]).text("");
-					}
-				}
-				
-			}
-			
 			var classTable=[];
-			for (var int = 1; int < 8; int++) {
-				//将拼接的字符串还原为数组
-				var obj=eval("("+"day"+int+"Box"+")");
+			addDataToArray($(td),day2Box,dayJson,classTable);
 
-				if(obj.length>0){
-					classTable.push(obj);
-					//judgeThird($(td),classTable);
-				}
-			}
-		  break;
+			break;
 		  
 		case '星期三':
-			if(day3Box.length>0){	
-				for (var int = 0; int < day3Box.length; int++) {
-					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
-					if(JSON.parse(day3Box[int]).classroom==classroom){
-						day3Box[int]=dayJson;
-						//获取是否符合 同一时间，只能老师出现一次的规则
-						var x = second(day3Box);
-						if(x!=undefined){
-							if(x==false){
-								var children = $(td).parent().children();
-								for (var int = 2; int < children.length; int++) {
-									$(children[int]).text("");
-								}
-							}
-							
-						}
-						return;
-					}
-				}
-			}
-			day3Box.push(dayJson);
-			//获取是否符合 同一时间，只能老师出现一次的规则
-			var x = second(day3Box);
-			if(x!=undefined){
-				if(x==false){
-					var children = $(td).parent().children();
-					for (var int = 2; int < children.length; int++) {
-						$(children[int]).text("");
-					}
-				}
-				
-			}
 			var classTable=[];
-			for (var int = 1; int < 8; int++) {
-				//将拼接的字符串还原为数组
-				var obj=eval("("+"day"+int+"Box"+")");
-
-				if(obj.length>0){
-					classTable.push(obj);
-					//judgeThird($(td),classTable);
-				}
-			}
+			addDataToArray($(td),day3Box,dayJson,classTable);
 			
-			  break;
+
+			break;
 		case '星期四':
-			if(day4Box.length>0){	
-				for (var int = 0; int < day4Box.length; int++) {
-					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
-					if(JSON.parse(day4Box[int]).classroom==classroom){
-						day4Box[int]=dayJson;
-						//获取是否符合 同一时间，只能老师出现一次的规则
-						var x = second(day4Box);
-						if(x!=undefined){
-							if(x==false){
-								var children = $(td).parent().children();
-								for (var int = 2; int < children.length; int++) {
-									$(children[int]).text("");
-								}
-							}
-							
-						}
-						return;
-					}
-				}
-			}
-			day4Box.push(dayJson);
-			//获取是否符合 同一时间，只能老师出现一次的规则
-			var x = second(day4Box);
-			if(x!=undefined){
-				if(x==false){
-					var children = $(td).parent().children();
-					for (var int = 2; int < children.length; int++) {
-						$(children[int]).text("");
-					}
-				}
-				
-			}
-
 			var classTable=[];
-			for (var int = 1; int < 8; int++) {
-				//将拼接的字符串还原为数组
-				var obj=eval("("+"day"+int+"Box"+")");
+			addDataToArray($(td),day4Box,dayJson,classTable);
 
-				if(obj.length>0){
-					classTable.push(obj);
-					//judgeThird($(td),classTable);
-				}
-			}
-			  break;
+			break;
 		case '星期五':
-			if(day5Box.length>0){	
-				for (var int = 0; int < day5Box.length; int++) {
-					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
-					if(JSON.parse(day5Box[int]).classroom==classroom){
-						day5Box[int]=dayJson;
-						//获取是否符合 同一时间，只能老师出现一次的规则
-						var x = second(day5Box);
-						if(x!=undefined){
-							if(x==false){
-								var children = $(td).parent().children();
-								for (var int = 2; int < children.length; int++) {
-									$(children[int]).text("");
-								}
-							}
-							
-						}
-						return;
-					}
-				}
-			}
-			day5Box.push(dayJson);
-			//获取是否符合 同一时间，只能老师出现一次的规则
-			var x = second(day5Box);
-			if(x!=undefined){
-				if(x==false){
-					var children = $(td).parent().children();
-					for (var int = 2; int < children.length; int++) {
-						$(children[int]).text("");
-					}
-				}
-				
-			}
-			
 			var classTable=[];
-			for (var int = 1; int < 8; int++) {
-				//将拼接的字符串还原为数组
-				var obj=eval("("+"day"+int+"Box"+")");
+			addDataToArray($(td),day5Box,dayJson,classTable);
 
-				if(obj.length>0){
-					classTable.push(obj);
-					//judgeThird($(td),classTable);
-				}
-			}
-			  break;
+			break;
 		case '星期六':
-			if(day6Box.length>0){	
-				for (var int = 0; int < day6Box.length; int++) {
-					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
-					if(JSON.parse(day6Box[int]).classroom==classroom){
-						day6Box[int]=dayJson;
-						//获取是否符合 同一时间，只能老师出现一次的规则
-						var x = second(day6Box);
-						if(x!=undefined){
-							if(x==false){
-								var children = $(td).parent().children();
-								for (var int = 2; int < children.length; int++) {
-									$(children[int]).text("");
-								}
-							}
-							
-						}
-						return;
-					}
-				}
-			}
-			day6Box.push(dayJson);
-			//获取是否符合 同一时间，只能老师出现一次的规则
-			var x = second(day6Box);
-			if(x!=undefined){
-				if(x==false){
-					var children = $(td).parent().children();
-					for (var int = 2; int < children.length; int++) {
-						$(children[int]).text("");
-					}
-				}
-				
-			}
-			
 			var classTable=[];
-			for (var int = 1; int < 8; int++) {
-				//将拼接的字符串还原为数组
-				var obj=eval("("+"day"+int+"Box"+")");
-
-				if(obj.length>0){
-					classTable.push(obj);
-					//judgeThird($(td),classTable);
-				}
-			}
-			  break;
+			addDataToArray($(td),day6Box,dayJson,classTable);
+			
+			break;
 		case '星期日':
-			if(day7Box.length>0){	
-				for (var int = 0; int < day7Box.length; int++) {
-					//如果数组中存在当前行的数据，则将数组中原来的数据重新赋值（修改）
-					if(JSON.parse(day7Box[int]).classroom==classroom){
-						day7Box[int]=dayJson;
-						//获取是否符合 同一时间，只能老师出现一次的规则
-						var x = second(day7Box);
-						if(x!=undefined){
-							if(x==false){
-								var children = $(td).parent().children();
-								for (var int = 2; int < children.length; int++) {
-									$(children[int]).text("");
-								}
-							}
-							
-						}
-						return;
-					}
-				}
-			}
-			day7Box.push(dayJson);
-			//获取是否符合 同一时间，只能老师出现一次的规则
-			var x = second(day7Box);
-			if(x!=undefined){
-				if(x==false){
-					var children = $(td).parent().children();
-					for (var int = 2; int < children.length; int++) {
-						$(children[int]).text("");
-					}
-				}
-				
-			}
 			var classTable=[];
-			for (var int = 1; int < 8; int++) {
-				//将拼接的字符串还原为数组
-				var obj=eval("("+"day"+int+"Box"+")");
-
-				if(obj.length>0){
-					classTable.push(obj);
-					//judgeThird($(td),classTable);
-				}
-			}
-			
+			addDataToArray($(td),day7Box,dayJson,classTable);
+	
 			break;
 
 		}
+		//第三层约束
 		judgeThird($(td),classTable);
 
 	}
@@ -783,6 +649,7 @@ $(function() {
 					}
 					if(int!=0){
 						json+="\""+box[int]+"\":\""+tdVal+"\",";
+						//alert("1111---------------"+tdVal);
 					}
 
 
