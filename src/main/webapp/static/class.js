@@ -169,31 +169,7 @@ $(function() {
 			day1Box=[],day2Box=[],day3Box=[],day4Box=[],day5Box=[],day6Box=[],day7Box=[],classTable=[];
 		}	
 			
-	/**
-	 * 异步获得所有老师
-	 */
-		
-	var getAllTeacher = function(){
-		var teacherArray=[];
-		$.ajax({
-			url:'json/QueryAllTeacherAjax.do',
-			type:'post',
-			dataType:'json',
-			data:null,
-			//异步请求设置为同步请求,解决传值出去的问题 
-			async:false,
-			success:function(data){
-				
-				if(data.length>0){
-					for (var int = 0; int < data.length; int++) {
-						teacherArray.push(data[int].teacherName);
-					}					
-				}				
-			}			
-		});	
-		return teacherArray;
-	}	
-	
+
 	/**
 	 * 异步获得所有班级
 	 */
@@ -219,6 +195,7 @@ $(function() {
 		});	
 		return classArray;
 	}	
+
 			
 	/**
 	 * 通过科目和班级确定老师

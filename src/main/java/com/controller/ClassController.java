@@ -93,7 +93,7 @@ public class ClassController {
 			        	for (int j = 0; j < list.get(i).size(); j++) {
 			        		System.out.println(list.get(i).get(j));
 			        		 ClassTableJson classTableJson = objectMapper.readValue(list.get(i).get(j), ClassTableJson.class);
-			        	     System.out.println(classTableJson.getWeekday());
+			        	     //System.out.println(classTableJson.getWeekday());
 							//调方法存入数据库
 			        	     scheduleinfoService.insertSelective(classTableJson);
 		   	     
