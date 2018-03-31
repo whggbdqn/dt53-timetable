@@ -15,18 +15,14 @@ public class ScheduleinfoServiceImpl implements ScheduleinfoService {
 	@Autowired
 	private ScheduleinfoMapper scheduleinfoMapper;
 
-	@Override
 	public int insertSelective(ClassTableJson record) {
 		scheduleinfoMapper.insertSelective(record);
 		return 0;
 	}
-
-	@Override
 	public int deleteAllSchedule() {
 		return scheduleinfoMapper.deleteAllSchedule();
 	}
 
-	@Override
 	public List<ClassTableJson2> getAllSchedule() {
 		return scheduleinfoMapper.getAllSchedule();
 	}

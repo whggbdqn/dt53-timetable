@@ -17,18 +17,15 @@ public class ClassServiceImpl implements ClassService {
 	@Autowired
 	private ClassMapper classMapper;
 
-	@Override
 	public List<Class> getAllClassByState(Integer state,Integer availableNum) {
 		Param p=new Param(state, availableNum);
 		return classMapper.getAllClassByState(p);
 	}
 
-	@Override
 	public int updateClassStateByName(Param p) {
 		return classMapper.updateClassStateByName(p);
 	}
 
-	@Override
 	public List<Class> getAllClassBySzx() {
 		// TODO Auto-generated method stub
 		return classMapper.getAllClassBySzx();

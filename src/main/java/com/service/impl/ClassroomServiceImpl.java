@@ -14,12 +14,10 @@ public class ClassroomServiceImpl implements ClassroomService {
 	@Autowired
 	private ClassroomMapper classroomMapper;
 
-	@Override
 	public List<Classroom> getAllRoomByState(Integer state) {
 		return classroomMapper.getAllRoomByState(state);
 	}
 
-	@Override
 	public List<Classroom> getAllRoom() {
 		// TODO Auto-generated method stub
 		return classroomMapper.getAllRoom();
