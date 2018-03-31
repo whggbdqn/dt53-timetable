@@ -16,8 +16,23 @@
     <result column="teachername_eve" jdbcType="VARCHAR" property="teachernameEve" />
     <result column="classInfo_eve" jdbcType="VARCHAR" property="classinfoEve" />
   </resultMap>
+  
+    <resultMap id="BaseResultMap2" type="com.entity.ClassTableJson2">
+    <result column="dateTime" jdbcType="VARCHAR" property="datetime" />
+    <result column="weekday" jdbcType="VARCHAR" property="weekday" />
+    <result column="classroom" jdbcType="VARCHAR" property="classroom" />
+    <result column="className_am" jdbcType="VARCHAR" property="className_am" />
+    <result column="teachername_am" jdbcType="VARCHAR" property="teachername_am" />
+    <result column="classInfo_am" jdbcType="VARCHAR" property="classInfo_am" />
+    <result column="className_pm" jdbcType="VARCHAR" property="className_pm" />
+    <result column="teachername_pm" jdbcType="VARCHAR" property="teachername_pm" />
+    <result column="classInfo_pm" jdbcType="VARCHAR" property="classInfo_pm" />
+    <result column="className_eve" jdbcType="VARCHAR" property="className_eve" />
+    <result column="teachername_eve" jdbcType="VARCHAR" property="teachername_eve" />
+    <result column="classInfo_eve" jdbcType="VARCHAR" property="classInfo_eve" />
+  </resultMap>
   <sql id="Base_Column_List">
-    id, dateTime, weekday, classroom, className_am, teachername_am, classInfo_am, className_pm, 
+    dateTime, weekday, classroom, className_am, teachername_am, classInfo_am, className_pm, 
     teachername_pm, classInfo_pm, className_eve, teachername_eve, classInfo_eve
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -25,6 +40,12 @@
     <include refid="Base_Column_List" />
     from scheduleinfo
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getAllSchedule" resultMap="BaseResultMap2">
+    select 
+    <include refid="Base_Column_List" />
+    from scheduleinfo
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from scheduleinfo

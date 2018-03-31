@@ -1,6 +1,9 @@
 package com.dao;
 
+import java.util.List;
+
 import com.entity.ClassTableJson;
+import com.entity.ClassTableJson2;
 import com.entity.Scheduleinfo;
 
 public interface ScheduleinfoMapper {
@@ -17,4 +20,6 @@ public interface ScheduleinfoMapper {
     int updateByPrimaryKey(Scheduleinfo record);
     //删除所有课表
     int deleteAllSchedule();
+    
+    List<ClassTableJson2> getAllSchedule();
 }
