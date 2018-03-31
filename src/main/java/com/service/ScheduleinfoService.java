@@ -1,6 +1,9 @@
 package com.service;
 
+import java.util.List;
+
 import com.entity.ClassTableJson;
+import com.entity.Scheduleinfo;
 
 
 public interface ScheduleinfoService {
@@ -13,4 +16,6 @@ public interface ScheduleinfoService {
     
     //删除所有课表
     int deleteAllSchedule();
+    
+    List<Scheduleinfo> getAllSchedule();
 }

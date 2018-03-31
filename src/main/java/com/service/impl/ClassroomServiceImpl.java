@@ -19,4 +19,10 @@ public class ClassroomServiceImpl implements ClassroomService {
 		return classroomMapper.getAllRoomByState(state);
 	}
 
+	@Override
+	public List<Classroom> getAllRoom() {
+		// TODO Auto-generated method stub
+		return classroomMapper.getAllRoom();
+	}
+
 }

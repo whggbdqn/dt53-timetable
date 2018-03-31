@@ -1,3 +1,11 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" isELIgnored="false"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -33,7 +41,8 @@
     <link rel="stylesheet" href="static/css/smartMenu.css">
 	</head>
 	<body>
-	<div class="row">
+	<div id="show">
+	  <div class="row">
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
@@ -66,8 +75,8 @@
 		</div>
 	</div>
 </div>
-	
-	<input type="button" class="btn btn-primary pull-right" value="保存" id="save"/>
+    </div><!-- show方法结束 -->
+    <input type="button" class="btn btn-primary pull-right" value="导出" id="save"/>
 	<input type="button" class="btn margin btn-primary" value="清空课表" id="clean"/>
 	<input type="button" class="btn btn-primary" value="发布课表" id="write"/>
 	<!-- jQuery 3 -->

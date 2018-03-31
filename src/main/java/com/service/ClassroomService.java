@@ -12,4 +12,7 @@ public interface ClassroomService {
 	 * @return 所有对应状态的教室
 	 */
 	List<Classroom> getAllRoomByState(Integer state);
+	
+	
+	List<Classroom> getAllRoom();
 }

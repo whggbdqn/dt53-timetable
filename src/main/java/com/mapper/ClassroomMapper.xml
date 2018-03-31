@@ -16,6 +16,10 @@
   	select * from classroom where classState=#{state}
   </select>
   
+  <select id="getAllRoom" resultMap="BaseResultMap" >
+  	select * from classroom
+  </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
