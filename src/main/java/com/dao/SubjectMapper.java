@@ -1,9 +1,13 @@
 package com.dao;
 
+import java.util.List;
+
 import com.entity.Subject;
 
 public interface SubjectMapper {
 
+	List<Subject> getAllsubject();
+	
 	int deleteByPrimaryKey(Integer subjectid);
 
 	int insert(Subject record);

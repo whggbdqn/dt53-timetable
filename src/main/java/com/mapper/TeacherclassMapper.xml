@@ -6,6 +6,7 @@
     <result column="teacherId" jdbcType="INTEGER" property="teacherid" />
     <result column="classId" jdbcType="INTEGER" property="classid" />
   </resultMap>
+    
   <sql id="Base_Column_List">
     teacherClassId, teacherId, classId
   </sql>

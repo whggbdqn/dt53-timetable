@@ -31,4 +31,36 @@ public class ClassServiceImpl implements ClassService {
 		return classMapper.getAllClassBySzx();
 	}
 
+	@Override
+	public int insert(Class record){
+		return classMapper.insert(record);
+	}
+	
+	@Override
+	public int deleteByPrimaryKey(Integer classid){
+		return classMapper.deleteByPrimaryKey(classid);
+	}
+	
+	@Override 
+	public int updateByPrimaryKey(Class record){
+		return classMapper.updateByPrimaryKey(record);
+	}
+	
+	@Override
+	public 	List<Class> getAllClass(){
+		List<Class> classs = classMapper.getAllClass();
+		return classs;
+	}
+
+	@Override
+	public List<Class> getAllClassByState(Integer state) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insertSelective(Class record) {
+		// TODO Auto-generated method stub
+		return classMapper.insertSelective(record);
+	}
 }

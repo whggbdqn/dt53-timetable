@@ -8,6 +8,9 @@
   <sql id="Base_Column_List">
     subjectId, subjectName
   </sql>
+    <select id="getAllsubject" resultMap="BaseResultMap"> 
+  select * from subject 
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

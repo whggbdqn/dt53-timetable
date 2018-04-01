@@ -1,0 +1,11 @@
+@CHARSET "UTF-8";
+#menuBox{
+	width:200px;
+	height:400px;
+	background-color:pink;
+}
+.pMenu{
+	width:200px;
+	height:20px;
+	color:blue;
+}

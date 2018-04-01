@@ -19,6 +19,11 @@
 	   <mapper resource="com/mapper/TeacherMapper.xml"></mapper>
 	   <mapper resource="com/mapper/TeachertimeMapper.xml"></mapper>	
 	   <mapper resource="com/mapper/TimeMapper.xml"></mapper>	
-	   <mapper resource="com/mapper/ScheduleinfoMapper.xml"></mapper>		
+	   <mapper resource="com/mapper/ScheduleinfoMapper.xml"></mapper>
+	   		
+	   <mapper resource="com/mapper/RjMapper.xml"></mapper>		
+	   <mapper resource="com/mapper/RoleMapper.xml"></mapper>		
+	   <mapper resource="com/mapper/RtMapper.xml"></mapper>		
+	   <mapper resource="com/mapper/JurisdictionMapper.xml"></mapper>		
 	</mappers>
 </configuration>

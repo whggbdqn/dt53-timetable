@@ -2,10 +2,20 @@ package com.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
+
 import com.entity.Class;
 import com.entity.Param;
 
 public interface ClassMapper {
+
+
+	
+	/**
+	 * 获得所有班级
+	 * @return
+	 */
+	List<Class> getAllClassBySzx();
 
 	int deleteByPrimaryKey(Integer classid);
 
@@ -18,6 +28,8 @@ public interface ClassMapper {
 	int updateByPrimaryKeySelective(Class record);
 
 	int updateByPrimaryKey(Class record);
+
+	List<Class> getAllClass();
 	
 	/**
 	 * 得到所有指定状态的班级
@@ -35,11 +47,5 @@ public interface ClassMapper {
 	int updateClassStateByName(Param p);
 
 	List<Class> getAllClassByState(Param p);
-	
-	/**
-	 * 获得所有班级
-	 * @return
-	 */
-	List<Class> getAllClassBySzx();
 
 }

@@ -6,31 +6,39 @@
     <result column="className" jdbcType="VARCHAR" property="classname" />
     <result column="classNum" jdbcType="INTEGER" property="classnum" />
     <result column="classState" jdbcType="INTEGER" property="classstate" />
+    
+    <result column="classRoomId" jdbcType="INTEGER" property="classroomid" />
+    <result column="availableNum" jdbcType="INTEGER" property="availablenum" />
+    <result column="classState" jdbcType="INTEGER" property="classstate" />
+    <result column="room_name" jdbcType="VARCHAR" property="roomName" />
+    <result column="classAndRoomId" jdbcType="INTEGER" property="classandroomid" />
+     
   </resultMap>
  
   <sql id="Base_Column_List">
     classId, className, classNum, classState
   </sql>
-  
-  <parameterMap type="Param" id="parameterMap_1">
+<!--   
+  <parameterMap type="Param" id="">
   		<parameter property="state" javaType="java.lang.Integer"/>
   		<parameter property="className" javaType="String"/> 
   </parameterMap>
+   -->
+ <select id="getAllClass" resultMap="BaseResultMap"> 
+  select * from class 
+  </select>
   
     <!-- 得到所有指定状态的班级 -->
   <select id="getAllClassByState" resultMap="BaseResultMap" parameterType="com.entity.Param">
   	select * from class where classState=#{state} and classNum &lt;=#{availableNum}
   </select>
   
-  <!-- 通过班级名字改变班级状态 -->
-  <update id="updateClassStateByName" parameterMap="parameterMap_1">
+<!--   通过班级名字改变班级状态 
+  <update id="updateClassStateByName" parameterMap="">
   		UPDATE class SET classState=#{state} WHERE className=#{className}
   </update>
+   -->
   
-  <!-- 查询所有班级 -->
-  <select id="getAllClassBySzx" resultMap="BaseResultMap">
-  	select * from class
-  </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -48,6 +56,9 @@
     values (#{classid,jdbcType=INTEGER}, #{classname,jdbcType=VARCHAR}, #{classnum,jdbcType=INTEGER}, 
       #{classstate,jdbcType=INTEGER})
   </insert>
+  
+  
+
   <insert id="insertSelective" parameterType="com.entity.Class">
     insert into class
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,9 +71,7 @@
       <if test="classnum != null">
         classNum,
       </if>
-      <if test="classstate != null">
-        classState,
-      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="classid != null">
@@ -74,11 +83,11 @@
       <if test="classnum != null">
         #{classnum,jdbcType=INTEGER},
       </if>
-      <if test="classstate != null">
-        #{classstate,jdbcType=INTEGER},
-      </if>
+     
     </trim>
   </insert>
+  
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.entity.Class">
     update class
     <set>
@@ -88,9 +97,8 @@
       <if test="classnum != null">
         classNum = #{classnum,jdbcType=INTEGER},
       </if>
-      <if test="classstate != null">
-        classState = #{classstate,jdbcType=INTEGER},
-      </if>
+
+  
     </set>
     where classId = #{classid,jdbcType=INTEGER}
   </update>

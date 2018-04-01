@@ -26,4 +26,21 @@ public interface ClassService {
 	 * @return
 	 */
 	List<Class> getAllClassBySzx();
+	
+	/**
+	 * 得到所有指定状态的班级
+	 * @param state 班级状态
+	 * @return 指定状态班级
+	 */
+	List<Class> getAllClassByState(Integer state);
+	int insert(Class record);
+	
+
+	int deleteByPrimaryKey(Integer classid);
+	int updateByPrimaryKey(Class record);
+	List<Class> getAllClass();
+
+	int insertSelective(Class record);
+
+
 }

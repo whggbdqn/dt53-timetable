@@ -46,11 +46,15 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">课表</h3>
+             <section class="content-header">
+			      <h1>调课记录</h1>
+			      <!-- <ol class="breadcrumb">
+			        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+			        <li><a href="#">Forms</a></li>
+			        <li class="active">General Elements</li>
+			      </ol> -->
+    		</section>
             </div>
-             <input type="button" class="btn btn-block btn-primary" value="自动排课" id="auto"/> 
-            <!-- <input type="button" class="btn btn-primary margin" value="自动排课" id="auto"/> -->
-            <!-- /.box-header -->
             <div class="box-body color-palette">
                 <div id="jsTimeTable">                
 					<table class="table table-bordered table-hover">
@@ -76,9 +80,8 @@
 	</div>
 </div>
     </div><!-- show方法结束 -->
-    <input type="button" class="btn btn-primary pull-right" value="导出" id="save"/>
+    <input type="button" class="btn btn-primary pull-right" value="导出"  onclick="location.href='export.do'"/>
 	<input type="button" class="btn margin btn-primary" value="清空课表" id="clean"/>
-	<input type="button" class="btn btn-primary" value="发布课表" id="write"/>
 	<!-- jQuery 3 -->
 <script src="static/jquery.js"></script>
 <!-- Bootstrap 3.3.7 -->
